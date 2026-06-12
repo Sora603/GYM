@@ -1,0 +1,1681 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PowerFit - 会员中心</title>
+<meta name="author" content="Jelly">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --sidebar-w: 220px;
+    --sidebar-bg: #FFFFFF;
+    --sidebar-hover: #F1F5F9;
+    --sidebar-active: #EFF6FF;
+    --sidebar-text: #64748B;
+    --sidebar-text-active: #1E293B;
+    --brand: #2563EB;
+    --brand-hover: #1D4ED8;
+    --brand-light: rgba(37,99,235,0.08);
+    --text: #1E293B;
+    --text-secondary: #64748B;
+    --text-muted: #94A3B8;
+    --bg: #F8FAFC;
+    --surface: #FFFFFF;
+    --border: #E2E8F0;
+    --border-light: #F1F5F9;
+    --green: #10B981;
+    --green-bg: #ECFDF5;
+    --danger: #EF4444;
+    --danger-bg: #FEF2F2;
+    --warning: #F59E0B;
+    --warning-bg: #FFFBEB;
+    --blue: #3B82F6;
+    --blue-bg: #EFF6FF;
+    --radius: 14px;
+    --radius-sm: 10px;
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-spring: cubic-bezier(0.32, 0.72, 0, 1);
+    --shadow-sm: 0 1px 2px rgba(37,99,235,0.03), inset 0 1px 0 rgba(255,255,255,0.9);
+    --shadow: 0 1px 3px rgba(37,99,235,0.04), 0 4px 16px rgba(37,99,235,0.03), inset 0 1px 0 rgba(255,255,255,0.9);
+    --shadow-md: 0 8px 32px rgba(37,99,235,0.06), 0 2px 6px rgba(37,99,235,0.04), inset 0 1px 0 rgba(255,255,255,0.9);
+    --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100dvh;
+    display: flex;
+  }
+
+  /* ===== 侧边栏 ===== */
+  .sidebar {
+    width: var(--sidebar-w);
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--border);
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 200;
+    overflow-y: auto;
+  }
+
+  .sidebar-brand {
+    padding: 24px 20px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .sidebar-logo {
+    width: 36px; height: 36px;
+    background: var(--brand);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .sidebar-logo svg { width: 20px; height: 20px; color: #fff; }
+
+  .sidebar-brand-text {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.02em;
+  }
+
+  .sidebar-brand-text em {
+    font-style: normal;
+    color: var(--brand);
+  }
+
+  .sidebar-nav {
+    flex: 1;
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .sidebar-nav .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    color: var(--sidebar-text);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-weight: 500;
+  }
+
+  .sidebar-nav .nav-item svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+  .sidebar-nav .nav-item:hover {
+    background: var(--sidebar-hover);
+    color: var(--text);
+  }
+
+  .sidebar-nav .nav-item.active {
+    background: var(--sidebar-active);
+    color: var(--brand);
+    font-weight: 600;
+  }
+
+  .sidebar-nav .nav-item.active svg { color: var(--brand); }
+
+  .sidebar-footer {
+    padding: 12px 16px;
+    border-top: 1px solid var(--border-light);
+    margin: 0 12px 12px;
+  }
+
+  .sidebar-footer .user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+    border-radius: var(--radius-sm);
+  }
+
+  .user-avatar {
+    width: 32px; height: 32px;
+    background: var(--brand);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .user-avatar span { color: #fff; font-size: 13px; font-weight: 700; }
+
+  .user-meta { flex: 1; min-width: 0; }
+  .user-meta .uname { font-size: 13px; font-weight: 600; color: var(--text); }
+  .user-meta .urole { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+
+  /* ===== 主内容区 ===== */
+  .main-wrap {
+    margin-left: var(--sidebar-w);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+  }
+
+  .topbar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 28px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .topbar .breadcrumb {
+    font-size: 14px;
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .topbar .breadcrumb span { color: var(--text-muted); font-weight: 400; }
+
+  .topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .vip-badge {
+    font-size: 12px;
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    background: rgba(37,99,235,0.08);
+    color: var(--brand);
+    border: 1px solid rgba(37,99,235,0.2);
+  }
+
+  .btn-logout {
+    padding: 7px 16px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: var(--font);
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .btn-logout:hover {
+    border-color: var(--danger);
+    color: var(--danger);
+    background: var(--danger-bg);
+  }
+
+  .content {
+    flex: 1;
+    padding: 24px 28px 40px;
+    max-width: 1200px;
+    width: 100%;
+  }
+
+  .page { display: none; }
+  .page.active { display: block; animation: pageIn 0.6s var(--ease-out-expo); }
+
+  @keyframes pageIn {
+    from { opacity: 0; transform: translateY(12px); filter: blur(4px); }
+    to { opacity: 1; transform: translateY(0); filter: blur(0); }
+  }
+
+  .page-header { margin-bottom: 24px; }
+  .page-title { font-size: 22px; font-weight: 700; color: var(--text); letter-spacing: -0.01em; }
+  .page-sub { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+
+  /* ===== 卡片网格 ===== */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 16px;
+  }
+
+  .card-item {
+    background: var(--surface);
+    border: 1px solid rgba(37,99,235,0.05);
+    border-radius: var(--radius);
+    padding: 28px 24px 24px;
+    transition: all 0.5s var(--ease-spring);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .card-item::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+  }
+
+  .card-item.gold::before { background: var(--brand); }
+  .card-item.orange::before { background: #F59E0B; }
+  .card-item.blue::before { background: var(--blue); }
+  .card-item.green::before { background: var(--green); }
+
+  .card-item:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .card-item .card-badge {
+    position: absolute;
+    top: 16px; right: 16px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 3px 10px;
+    border-radius: 4px;
+  }
+
+  .badge-hot {
+    background: linear-gradient(135deg, #F97316, #DC2626);
+    color: #fff;
+  }
+
+  .badge-value {
+    background: var(--green-bg);
+    color: #059669;
+    border: 1px solid #A7F3D0;
+  }
+
+  .card-item .card-type {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--brand);
+    margin-bottom: 6px;
+    font-weight: 700;
+  }
+
+  .card-item .card-name {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 4px;
+    color: var(--text);
+  }
+
+  .card-item .card-price {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1;
+    margin: 16px 0 8px;
+    letter-spacing: -0.02em;
+  }
+
+  .card-item .card-price span {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  .card-item .card-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .card-item .btn-buy {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 16px;
+    padding: 9px 22px;
+    background: var(--brand);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: var(--font);
+    transition: all 0.4s var(--ease-spring);
+    box-shadow: 0 2px 8px rgba(37,99,235,0.15);
+  }
+
+  .card-item .btn-buy:hover {
+    background: var(--brand-hover);
+    box-shadow: 0 6px 24px rgba(37,99,235,0.28);
+    transform: translateY(-1px);
+  }
+
+  .card-item .btn-buy:active { transform: scale(0.95); transition: all 0.1s var(--ease-out-expo); }
+
+  /* ===== 我的健身卡（层叠效果） ===== */
+  .my-cards-stack {
+    position: relative;
+    margin-bottom: 32px;
+  }
+
+  .my-card {
+    border-radius: var(--radius);
+    padding: 18px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .my-card.card-active {
+    background: linear-gradient(135deg, #2563EB, #1D4ED8);
+    color: #FFFFFF;
+    box-shadow: 0 4px 20px rgba(37,99,235,0.2);
+    position: relative;
+    z-index: 2;
+  }
+
+  .my-card.card-active:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(37,99,235,0.3);
+  }
+
+  .my-card.card-expired {
+    background: #F1F5F9;
+    opacity: 0.6;
+    z-index: 1;
+  }
+
+  .my-card .mc-name { font-weight: 600; font-size: 14px; }
+  .card-active .mc-name { color: #FFFFFF; }
+  .card-expired .mc-name { color: var(--text); }
+
+  .my-card .mc-date { font-size: 12px; margin-top: 2px; }
+  .card-active .mc-date { color: rgba(255,255,255,0.6); }
+  .card-expired .mc-date { color: var(--text-muted); }
+
+  .mc-status {
+    font-size: 11px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .mc-status svg { width: 12px; height: 12px; }
+
+  .status-active {
+    background: rgba(255,255,255,0.15);
+    color: #FFFFFF;
+  }
+
+  .status-expired {
+    background: var(--danger-bg);
+    color: #DC2626;
+    border: 1px solid #FECACA;
+  }
+
+  /* ===== 教练卡片 ===== */
+  .coach-card {
+    background: var(--surface);
+    border: 1px solid rgba(37,99,235,0.05);
+    border-radius: var(--radius);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.5s var(--ease-spring);
+    box-shadow: var(--shadow-sm);
+    position: relative;
+  }
+
+  .coach-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .coach-avatar {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: #F3F4F6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .coach-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .coach-avatar svg { width: 42px; height: 42px; color: var(--text-muted); opacity: 0.35; }
+
+  /* 底部渐变遮罩 + 文字覆盖 */
+  .coach-avatar::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .coach-overlay {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 16px;
+    z-index: 1;
+    color: #FFFFFF;
+  }
+
+  .coach-overlay .coach-name {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .coach-overlay .coach-spec {
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 4px;
+    opacity: 0.85;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .coach-info { padding: 14px 18px; }
+  .coach-info .coach-intro { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+
+  /* ===== 统计盒子 ===== */
+  .stat-box {
+    background: var(--surface);
+    border: 1px solid rgba(37,99,235,0.06);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    text-align: center;
+    transition: all 0.5s var(--ease-spring);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .stat-box:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  .stat-box .stat-icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 14px;
+  }
+
+  .stat-box .stat-icon svg { width: 24px; height: 24px; }
+
+  .stat-icon-orange { background: rgba(37,99,235,0.08); color: var(--brand); }
+  .stat-icon-blue { background: var(--blue-bg); color: var(--blue); }
+
+  .stat-box .stat-num {
+    font-size: 48px;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .stat-box .stat-label {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-top: 6px;
+    font-weight: 500;
+  }
+
+  .stat-box .stat-sub {
+    font-size: 12px;
+    margin-top: 10px;
+    padding: 5px 12px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 600;
+  }
+
+  .stat-sub.good { background: var(--green-bg); color: #059669; }
+  .stat-sub.warn { background: var(--warning-bg); color: #D97706; }
+  .stat-sub.busy { background: var(--danger-bg); color: #DC2626; }
+
+  /* ===== 新闻列表 ===== */
+  .news-item {
+    background: var(--surface);
+    border: 1px solid rgba(37,99,235,0.05);
+    border-radius: var(--radius-sm);
+    padding: 16px 20px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.4s var(--ease-spring);
+    display: flex;
+    gap: 16px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .news-item:hover {
+    border-color: rgba(37,99,235,0.15);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  .news-item::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--brand);
+    border-radius: 0 3px 3px 0;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .news-item:hover::before { opacity: 1; }
+
+  .news-date {
+    flex-shrink: 0;
+    width: 50px;
+    text-align: center;
+    background: #FAFAFA;
+    border-radius: 8px;
+    padding: 8px 4px;
+    border: 1px solid var(--border-light);
+  }
+
+  .news-date .day {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .news-date .month {
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-top: 2px;
+    text-transform: uppercase;
+  }
+
+  .news-item .news-title { font-size: 15px; font-weight: 600; color: var(--text); }
+  .news-item .news-preview { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+  .news-dot {
+    width: 8px; height: 8px;
+    background: var(--brand);
+    border-radius: 50%;
+    position: absolute;
+    top: 18px; right: 18px;
+  }
+
+  /* ===== 商品卡片 ===== */
+  .product-card {
+    background: var(--surface);
+    border: 1px solid rgba(37,99,235,0.05);
+    border-radius: var(--radius);
+    padding: 18px 22px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.5s var(--ease-spring);
+    gap: 16px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .product-card.low-stock {
+    border-left: 3px solid #EF4444;
+  }
+
+  .product-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .product-icon {
+    width: 48px; height: 48px;
+    border-radius: 10px;
+    flex-shrink: 0;
+    background: var(--blue-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(59,130,246,0.1);
+  }
+
+  .product-icon svg { width: 22px; height: 22px; color: var(--blue); }
+  .product-info { flex: 1; }
+
+  .product-info .prod-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .product-info .prod-stock {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  .product-info .prod-stock.low { color: #DC2626; font-weight: 600; }
+
+  .product-price {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+
+  .btn-buy-sm {
+    padding: 7px 16px;
+    background: var(--brand);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: var(--font);
+    transition: all 0.4s var(--ease-spring);
+    flex-shrink: 0;
+  }
+
+  .btn-buy-sm:hover {
+    background: var(--brand-hover);
+    box-shadow: 0 6px 20px rgba(37,99,235,0.25);
+    transform: translateY(-1px);
+  }
+
+  .btn-buy-sm:active { transform: scale(0.95); transition: all 0.1s var(--ease-out-expo); }
+
+  /* ===== Modal ===== */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 300;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-overlay.show { display: flex; animation: fadeIn 0.2s ease; }
+
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    max-width: 520px;
+    width: 92%;
+    max-height: 82vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    animation: scaleIn 0.25s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.94) translateY(12px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .modal .close-btn {
+    float: right;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    width: 34px; height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+
+  .modal .close-btn:hover { background: #F3F4F6; color: var(--text); }
+  .modal h2 { font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+
+  /* 弹窗内表单 */
+  .modal .form-group { margin-bottom: 18px; }
+  .modal .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .modal .form-group input { width: 100%; padding: 11px 14px; background: #F8FAFC; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 14px; font-family: var(--font); color: var(--text); outline: none; transition: border-color 0.2s; }
+  .modal .form-group input:focus { border-color: var(--brand); box-shadow: 0 0 0 3px rgba(37,99,235,0.08); }
+  .modal .btn-primary { width: 100%; padding: 12px; background: var(--brand); color: #fff; border: none; border-radius: var(--radius-sm); font-size: 14px; font-weight: 600; cursor: pointer; font-family: var(--font); transition: all 0.3s var(--ease-spring); }
+  .modal .btn-primary:hover { background: var(--brand-hover); box-shadow: 0 4px 16px rgba(37,99,235,0.2); }
+  .modal .btn-primary:active { transform: scale(0.97); }
+  .modal .msg { font-size: 13px; padding: 10px 14px; border-radius: var(--radius-sm); display: none; align-items: center; gap: 8px; font-weight: 500; }
+  .modal .msg.show { display: flex; }
+  .modal .msg-error { background: #FEF2F2; color: #DC2626; border: 1px solid #FECACA; }
+  .modal .msg-success { background: #F0FDF4; color: #16A34A; border: 1px solid #BBF7D0; }
+
+  .empty-state {
+    text-align: center;
+    padding: 48px;
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+
+  .empty-state svg { width: 48px; height: 48px; opacity: 0.25; margin-bottom: 14px; }
+
+  /* ===== 峰值日历 ===== */
+  .peak-calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+  }
+
+  .cal-header {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    padding: 6px 0;
+  }
+
+  .cal-day {
+    aspect-ratio: 1;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+    transition: transform 0.2s ease;
+    cursor: default;
+  }
+
+  .cal-day:hover { transform: scale(1.15); z-index: 1; }
+  .cal-day.empty { background: transparent; cursor: default; }
+  .cal-day.empty:hover { transform: none; }
+  .cal-day .cal-num { font-size: 12px; }
+  .cal-day .cal-peak { font-size: 10px; color: var(--text-muted); }
+
+  .cal-heat-0 { background: #F1F5F9; color: var(--text-muted); }
+  .cal-heat-1 { background: #DBEAFE; color: #1E40AF; }
+  .cal-heat-2 { background: #93C5FD; color: #1E3A5F; }
+  .cal-heat-3 { background: #3B82F6; color: #FFFFFF; }
+  .cal-heat-4 { background: #1D4ED8; color: #FFFFFF; }
+
+  /* 时间段柱状条 */
+  .timeslot-bars { display: flex; gap: 10px; align-items: flex-end; }
+  .ts-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .ts-bar-fill { width: 100%; max-width: 56px; background: linear-gradient(180deg, var(--brand), #93C5FD); border-radius: 6px 6px 0 0; min-height: 4px; transition: height 0.6s ease; }
+  .ts-bar-num { font-size: 14px; font-weight: 700; color: var(--text); }
+  .ts-bar-label { font-size: 11px; color: var(--text-muted); white-space: nowrap; }
+
+  /* ===== 新闻跑马灯 ===== */
+  .news-ticker {
+    background: linear-gradient(135deg, #EFF6FF, #DBEAFE);
+    border-bottom: 1px solid rgba(37,99,235,0.1);
+    padding: 10px 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    overflow: hidden;
+    height: 42px;
+  }
+
+  .ticker-icon {
+    flex-shrink: 0;
+    color: var(--brand);
+    display: flex;
+    align-items: center;
+  }
+
+  .ticker-track {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .ticker-text {
+    display: inline-block;
+    white-space: nowrap;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1E40AF;
+    animation: tickerScroll 18s linear infinite;
+  }
+
+  @keyframes tickerScroll {
+    0%   { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+  }
+</style>
+</head>
+<body>
+
+<!-- 侧边栏 -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="sidebar-logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M6.5 6.5h11M6.5 6.5a4 4 0 0 0-4 4v3a4 4 0 0 0 4 4h11a4 4 0 0 0 4-4v-3a4 4 0 0 0-4-4"/>
+        <circle cx="8" cy="13" r="1.5" fill="currentColor"/>
+        <circle cx="16" cy="13" r="1.5" fill="currentColor"/>
+        <path d="M7 17.5h10"/>
+      </svg>
+    </div>
+    <div class="sidebar-brand-text">Power<em>Fit</em></div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-item active" data-page="cards" onclick="switchPage('cards')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+      健身卡
+    </div>
+    <div class="nav-item" data-page="coaches" onclick="switchPage('coaches')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>
+      教练团队
+    </div>
+    <div class="nav-item" data-page="gym-status" onclick="switchPage('gym-status')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      场馆状态
+    </div>
+    <div class="nav-item" data-page="news" onclick="switchPage('news')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      通知公告
+    </div>
+    <div class="nav-item" data-page="body" onclick="switchPage('body')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" y1="8" x2="2" y2="22"/><line x1="17.5" y1="15" x2="9" y2="15"/></svg>
+      身体数据
+    </div>
+    <div class="nav-item" data-page="shop" onclick="switchPage('shop')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+      商品购买
+    </div>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="user-info">
+      <div class="user-avatar" id="sidebarAvatar"><span id="sidebarAvatarLetter">M</span></div>
+      <div class="user-meta">
+        <div class="uname" id="sidebarUsername">会员</div>
+        <div class="urole" id="sidebarVip">VIP -</div>
+      </div>
+    </div>
+    <div class="sidebar-action" onclick="showChangePwd()" style="margin-top:6px;padding:6px 8px;border-radius:6px;font-size:12px;color:var(--text-muted);cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:6px;" onmouseover="this.style.background='var(--sidebar-hover)';this.style.color='var(--text)';" onmouseout="this.style.background='';this.style.color='';">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><circle cx="12" cy="16" r="1"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      修改密码
+    </div>
+  </div>
+</aside>
+
+<!-- 主内容区 -->
+<div class="main-wrap">
+  <header class="topbar">
+    <div class="breadcrumb" id="breadcrumb">健身卡 <span>/ 会员中心</span></div>
+    <div class="topbar-actions">
+      <span class="vip-badge" id="headerVip">VIP -</span>
+      <button class="btn-logout" onclick="doLogout()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        退出
+      </button>
+    </div>
+  </header>
+
+  <!-- 新闻跑马灯 -->
+  <div id="newsTicker" class="news-ticker" style="display:none;">
+    <div class="ticker-icon">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+    </div>
+    <div class="ticker-track">
+      <span class="ticker-text" id="tickerText"></span>
+    </div>
+  </div>
+
+  <main class="content">
+
+    <!-- 健身卡 -->
+    <div id="page-cards" class="page active">
+      <div class="page-header">
+        <div class="page-title">我的健身卡</div>
+        <div class="page-sub">管理已购健身卡</div>
+      </div>
+      <div id="myCards" style="margin-bottom:32px;"></div>
+      <div class="page-header">
+        <div class="page-title">购买健身卡</div>
+        <div class="page-sub">选择套餐，开启健身之旅</div>
+      </div>
+      <div class="grid" id="cardTypes"></div>
+    </div>
+
+    <!-- 教练 -->
+    <div id="page-coaches" class="page">
+      <div class="page-header">
+        <div class="page-title">教练团队</div>
+        <div class="page-sub">专业教练助你达成目标</div>
+      </div>
+      <div class="grid" id="coachesGrid"></div>
+    </div>
+
+    <!-- 场馆 -->
+    <div id="page-gym-status" class="page">
+      <div class="page-header">
+        <div class="page-title">场馆实时状态</div>
+      </div>
+      <div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));">
+        <div class="stat-box">
+          <div class="stat-icon stat-icon-orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+          <div class="stat-num" id="gymCount">-</div>
+          <div class="stat-label">当前在场人数</div>
+          <div class="stat-sub" id="gymLevel"></div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-icon stat-icon-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+          <div class="stat-num" id="gymTotalIn">-</div>
+          <div class="stat-label">今日入场总数</div>
+        </div>
+      </div>
+      <!-- 峰值日历 -->
+      <div class="card" style="margin-top:24px;">
+        <div class="card-header" style="display:flex;justify-content:space-between;align-items:center;cursor:pointer;" onclick="toggleCalendar2()">
+          <span>每日峰值人数</span>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span id="calMonthLabel2" style="font-size:13px;color:var(--text-muted);font-weight:400;"></span>
+            <span id="calToggleIcon2" style="font-size:14px;color:var(--text-muted);transition:transform 0.3s;">&#9660;</span>
+          </div>
+        </div>
+        <div class="card-body" id="calBody2">
+          <div id="peakCalendar2" class="peak-calendar"></div>
+          <div id="dayDetail2" class="day-detail" style="display:none;margin-top:16px;padding:16px;background:#F8FAFC;border-radius:10px;border:1px solid var(--border-light);">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+              <span style="font-size:13px;font-weight:600;color:var(--text);" id="dayDetailTitle2"></span>
+              <button onclick="document.getElementById('dayDetail2').style.display='none'" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:18px;">&times;</button>
+            </div>
+            <div id="dayDetailBars2" class="timeslot-bars"></div>
+          </div>
+          <div style="margin-top:20px;border-top:1px solid var(--border-light);padding-top:16px;">
+            <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:14px;">今日各时间段峰值</div>
+            <div id="timeslotBars2" class="timeslot-bars"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 公告 -->
+    <div id="page-news" class="page">
+      <div class="page-header">
+        <div class="page-title">通知公告</div>
+      </div>
+      <div id="newsList"></div>
+    </div>
+
+    <!-- 身体数据 -->
+    <div id="page-body" class="page">
+      <div class="page-header">
+        <div class="page-title">身体数据</div>
+        <div class="page-sub">记录身高体重，追踪 BMI 和体脂率变化</div>
+      </div>
+
+      <!-- 上方：录入 + 概览卡片 左右并排 -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px;">
+
+        <!-- 输入表单 -->
+        <div class="card-item" style="cursor:default;">
+          <div class="card-type">📐 录入新数据</div>
+          <div style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div class="form-group"><label>身高 (cm)</label><input type="number" id="bodyHeight" placeholder="例如 175" step="0.1" min="0"></div>
+            <div class="form-group"><label>体重 (kg)</label><input type="number" id="bodyWeight" placeholder="例如 70" step="0.1" min="0"></div>
+            <div class="form-group"><label>年龄</label><input type="number" id="bodyAge" placeholder="例如 25" min="1" max="120"></div>
+            <div class="form-group">
+              <label>性别</label>
+              <div style="display:flex;gap:16px;margin-top:6px;">
+                <label style="display:flex;align-items:center;gap:6px;font-size:14px;font-weight:500;cursor:pointer;color:var(--text);">
+                  <input type="radio" name="bodyGender" value="1" checked style="accent-color:var(--brand);"> 男
+                </label>
+                <label style="display:flex;align-items:center;gap:6px;font-size:14px;font-weight:500;cursor:pointer;color:var(--text);">
+                  <input type="radio" name="bodyGender" value="0" style="accent-color:var(--brand);"> 女
+                </label>
+              </div>
+            </div>
+          </div>
+          <button class="btn-buy" onclick="saveBody()" style="width:100%;justify-content:center;margin-top:14px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 保存数据
+          </button>
+        </div>
+
+        <!-- 结果概览卡片 -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;" id="bodyResultCards">
+          <div class="stat-box">
+            <div class="stat-icon stat-icon-orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg></div>
+            <div class="stat-num" id="bodyBmi">--</div>
+            <div class="stat-label">BMI</div>
+            <div class="stat-sub" id="bodyBmiLevel">请录入数据</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-icon stat-icon-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+            <div class="stat-num" id="bodyFat">--</div>
+            <div class="stat-label">体脂率 (%)</div>
+            <div class="stat-sub" id="bodyFatLevel">请录入数据</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 曲线图 全宽 -->
+      <div style="background:var(--surface);border:1px solid rgba(37,99,235,0.05);border-radius:var(--radius);padding:20px 24px;box-shadow:var(--shadow-sm);margin-bottom:24px;">
+        <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:14px;">📈 变化趋势</div>
+        <div style="height:300px;position:relative;">
+          <canvas id="bodyChart"></canvas>
+        </div>
+      </div>
+
+      <!-- 历史记录表 全宽 -->
+      <div style="background:var(--surface);border:1px solid rgba(37,99,235,0.05);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm);">
+        <div style="padding:14px 24px;font-size:14px;font-weight:600;color:var(--text);border-bottom:1px solid var(--border-light);display:flex;justify-content:space-between;align-items:center;">
+          📋 历史记录
+          <span style="font-size:11px;color:var(--text-muted);font-weight:400;" id="bodyRecordCount"></span>
+        </div>
+        <div style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;font-size:13px;">
+            <thead>
+              <tr style="background:#F8FAFC;color:var(--text-muted);font-size:11px;text-transform:uppercase;letter-spacing:0.04em;">
+                <th style="padding:10px 16px;text-align:left;font-weight:600;">时间</th>
+                <th style="padding:10px 16px;text-align:center;font-weight:600;">身高(cm)</th>
+                <th style="padding:10px 16px;text-align:center;font-weight:600;">体重(kg)</th>
+                <th style="padding:10px 16px;text-align:center;font-weight:600;">BMI</th>
+                <th style="padding:10px 16px;text-align:center;font-weight:600;">体脂率</th>
+                <th style="padding:10px 16px;text-align:center;font-weight:600;">操作</th>
+              </tr>
+            </thead>
+            <tbody id="bodyHistoryTable">
+              <tr><td colspan="6" style="padding:32px;text-align:center;color:var(--text-muted);">暂无数据</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 商品 -->
+    <div id="page-shop" class="page">
+      <div class="page-header">
+        <div class="page-title">商品购买</div>
+        <div class="page-sub">选购商品，到前台领取</div>
+      </div>
+      <div id="productsGrid"></div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modalBox">
+    <button class="close-btn" onclick="document.getElementById('modalOverlay').classList.remove('show')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script>
+const API = '';
+let user = null;
+
+(async function init() {
+  try {
+    const res = await fetch(API + '/api/auth/me');
+    const data = await res.json();
+    if (data.code !== 200) { window.location.href = '/login.html'; return; }
+    user = data.data;
+    document.getElementById('sidebarUsername').textContent = user.username;
+    if (user.photo) {
+      document.getElementById('sidebarAvatar').innerHTML = '<img src="'+user.photo+'" style="width:32px;height:32px;border-radius:8px;object-fit:cover;">';
+    } else {
+      document.getElementById('sidebarAvatarLetter').textContent = (user.username||'M').charAt(0).toUpperCase();
+    }
+    document.getElementById('sidebarVip').textContent = user.vipCardNo ? 'VIP ' + user.vipCardNo : '普通会员';
+    document.getElementById('headerVip').textContent = user.vipCardNo ? 'VIP ' + user.vipCardNo : '普通会员';
+    loadCards();
+    loadTicker();
+  } catch (e) { window.location.href = '/login.html'; }
+})();
+
+async function loadTicker() {
+  try {
+    const r = await fetch(API + '/api/news/ticker');
+    const d = await r.json();
+    if (d.code === 200 && d.data) {
+      const ticker = document.getElementById('newsTicker');
+      document.getElementById('tickerText').textContent = d.data.title + '：' + d.data.content;
+      ticker.style.display = 'flex';
+    }
+  } catch (e) {}
+}
+
+const PAGE_TITLES = {
+  cards: '健身卡',
+  coaches: '教练团队',
+  'gym-status': '场馆实时状态',
+  news: '通知公告',
+  body: '身体数据',
+  shop: '商品购买'
+};
+
+function switchPage(pageName) {
+  document.querySelectorAll('.sidebar-nav .nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelector(`[data-page="${pageName}"]`).classList.add('active');
+  document.getElementById('page-' + pageName).classList.add('active');
+  document.getElementById('breadcrumb').innerHTML = (PAGE_TITLES[pageName] || pageName) + ' <span>/ 会员中心</span>';
+  if (pageName === 'cards') loadCards();
+  else if (pageName === 'coaches') loadCoaches();
+  else if (pageName === 'gym-status') loadGymStatus();
+  else if (pageName === 'news') loadNews();
+  else if (pageName === 'body') loadBodyPage();
+  else if (pageName === 'shop') loadShop();
+}
+
+async function loadCards() {
+  try {
+    const res = await fetch(API + '/api/card/my');
+    const data = await res.json();
+    const c = document.getElementById('myCards');
+    if (data.code === 200 && data.data.length > 0) {
+      c.innerHTML = '<div class="my-cards-stack">'+data.data.map(c => {
+        const ok = c.status === 1 && new Date(c.expireTime) > new Date();
+        return `<div class="my-card ${ok?'card-active':'card-expired'}"><div><div class="mc-name">${c.cardName}</div><div class="mc-date">${formatDate(c.buyTime)} — 到期: ${formatDate(c.expireTime)}</div></div><span class="mc-status ${ok?'status-active':'status-expired'}">${ok?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>有效':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>已过期'}</span></div>`;
+      }).join('')+'</div>';
+    } else { c.innerHTML = '<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/></svg><p>暂未购买健身卡</p></div>'; }
+  } catch (e) { document.getElementById('myCards').innerHTML = '<div class="empty-state"><p>加载失败</p></div>'; }
+
+  try {
+    const res = await fetch(API + '/api/card/types');
+    const data = await res.json();
+    if (data.code === 200) {
+      const colors = ['gold', 'orange', 'blue', 'green'];
+      document.getElementById('cardTypes').innerHTML = data.data.map((c, i) => `
+        <div class="card-item ${colors[i%4]}">
+          ${i === 2 ? '<div class="card-badge badge-hot">🔥 热门</div>' : ''}
+          ${i === 0 ? '<div class="card-badge badge-value">超值</div>' : ''}
+          <div class="card-type">${c.type}</div>
+          <div class="card-name">${c.name}</div>
+          <div class="card-price">&yen;${c.price}<span>/${c.durationDays}天</span></div>
+          <div class="card-desc">${c.description || ''}</div>
+          <button class="btn-buy" onclick="buyCard(${c.id})"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>立即购买</button>
+        </div>`).join('');
+    }
+  } catch (e) {}
+}
+
+async function buyCard(cardId) {
+  if (!confirm('确认购买该健身卡吗？')) return;
+  try {
+    const res = await fetch(API + '/api/card/buy/' + cardId, { method: 'POST' });
+    const data = await res.json();
+    if (data.code === 200) {
+      if (data.data && data.data.vipCardNo) {
+        user.vipCardNo = data.data.vipCardNo;
+        document.getElementById('headerVip').textContent = 'VIP ' + user.vipCardNo;
+        document.getElementById('sidebarVip').textContent = 'VIP ' + user.vipCardNo;
+      }
+      alert('购买成功！'); loadCards();
+    } else { alert('购买失败: ' + data.message); }
+  } catch (e) { alert('网络错误'); }
+}
+
+async function loadCoaches() {
+  try {
+    const res = await fetch(API + '/api/coach/list');
+    const data = await res.json();
+    if (data.code === 200) {
+      document.getElementById('coachesGrid').innerHTML = data.data.map(c => `
+        <div class="coach-card" onclick="showCoachDetail(${c.id})">
+          <div class="coach-avatar">
+            ${c.photo ? `<img src="${c.photo}" alt="${c.name}">` : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>'}
+            <div class="coach-overlay">
+              <div class="coach-name">${c.name}</div>
+              <div class="coach-spec"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>${c.specialty || '专业教练'}</div>
+            </div>
+          </div>
+          <div class="coach-info"><div class="coach-intro">${c.intro ? c.intro.substring(0,80)+'...' : '暂无简介'}</div></div>
+        </div>`).join('');
+    }
+  } catch (e) {}
+}
+
+async function showCoachDetail(id) {
+  try {
+    const res = await fetch(API + '/api/coach/' + id);
+    const data = await res.json();
+    if (data.code === 200) {
+      const c = data.data;
+      document.getElementById('modalContent').innerHTML = `<h2>${c.name}</h2><p style="color:var(--brand);font-weight:700;font-size:14px;">${c.specialty||''}</p><p style="color:var(--text-secondary);margin-top:14px;line-height:1.8;">${c.intro||'暂无介绍'}</p>${c.phone?`<p style="margin-top:14px;font-size:13px;color:var(--text-muted);">📞 ${c.phone}</p>`:''}`;
+      document.getElementById('modalOverlay').classList.add('show');
+    }
+  } catch (e) {}
+}
+
+async function loadGymStatus() {
+  try {
+    const res = await fetch(API + '/api/gym/count');
+    const data = await res.json();
+    if (data.code === 200) {
+      const cnt = data.data.currentCount;
+      document.getElementById('gymCount').textContent = cnt;
+      document.getElementById('gymTotalIn').textContent = data.data.totalIn;
+      const lv = document.getElementById('gymLevel');
+      if (cnt < 20) { lv.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> 空闲 · 快来锻炼'; lv.className = 'stat-sub good'; }
+      else if (cnt < 50) { lv.innerHTML = '适中'; lv.className = 'stat-sub warn'; }
+      else { lv.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="10.29 3.86 1.82 18 20.35 18 10.29 3.86"/></svg> 拥挤 · 建议错峰'; lv.className = 'stat-sub busy'; }
+    }
+  } catch (e) {}
+  // 加载峰值日历
+  try {
+    const cr = await fetch(API + '/api/gym/daily-peaks');
+    const cd = await cr.json();
+    if (cd.code === 200) {
+      const { year, month, records } = cd.data;
+      document.getElementById('calMonthLabel2').textContent = year + '年' + month + '月';
+      const peakMap = {};
+      if (records) records.forEach(r => { peakMap[r.recordDate] = r.peakCount || 0; });
+      const firstDay = new Date(year, month - 1, 1).getDay();
+      const daysInMonth = new Date(year, month, 0).getDate();
+      const weekHeaders = ['日','一','二','三','四','五','六'];
+      let html = weekHeaders.map(d => '<div class="cal-header">'+d+'</div>').join('');
+      for (let i = 0; i < firstDay; i++) html += '<div class="cal-day empty"></div>';
+      for (let d = 1; d <= daysInMonth; d++) {
+        const ds = year + '-' + String(month).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+        const peak = peakMap[ds] || 0;
+        let hc = 'cal-heat-0';
+        if (peak >= 50) hc = 'cal-heat-4';
+        else if (peak >= 30) hc = 'cal-heat-3';
+        else if (peak >= 15) hc = 'cal-heat-2';
+        else if (peak > 0) hc = 'cal-heat-1';
+        html += '<div class="cal-day '+hc+'" title="点击查看'+ds+'时段详情" onclick="showDayDetail2(\''+ds+'\')" style="cursor:pointer;"><span class="cal-num">'+d+'</span><span class="cal-peak">'+(peak>0?peak:'')+'</span></div>';
+      }
+      document.getElementById('peakCalendar2').innerHTML = html;
+    }
+  } catch (e) {}
+  // 时间段峰值
+  try {
+    const tr = await fetch(API + '/api/gym/timeslots');
+    const td = await tr.json();
+    if (td.code === 200) {
+      const slots = ['8:00-10:00','10:00-12:00','12:00-14:00','14:00-16:00','16:00-20:00','20:00-22:00'];
+      const data = td.data.slots || td.data;
+      const values = slots.map(s => data[s] || 0);
+      const max = Math.max(1, ...values);
+      document.getElementById('timeslotBars2').innerHTML = slots.map((s, i) =>
+        '<div class="ts-bar-wrap"><div class="ts-bar-num">'+values[i]+'</div>'+
+        '<div class="ts-bar-fill" style="height:'+Math.max(4,Math.round(values[i]/max*100))+'px"></div>'+
+        '<div class="ts-bar-label">'+s+'</div></div>'
+      ).join('');
+    }
+  } catch (e) {}
+}
+
+function toggleCalendar2() {
+  const body = document.getElementById('calBody2');
+  const icon = document.getElementById('calToggleIcon2');
+  if (body.style.display === 'none') {
+    body.style.display = '';
+    icon.style.transform = 'rotate(0deg)';
+  } else {
+    body.style.display = 'none';
+    icon.style.transform = 'rotate(-90deg)';
+  }
+}
+
+async function showDayDetail2(dateStr) {
+  document.getElementById('dayDetailTitle2').textContent = dateStr + ' 各时间段峰值';
+  document.getElementById('dayDetailBars2').innerHTML = '<span style="color:var(--text-muted);font-size:13px;">加载中...</span>';
+  document.getElementById('dayDetail2').style.display = 'block';
+  try {
+    const r = await fetch(API + '/api/gym/timeslots?date=' + dateStr);
+    const d = await r.json();
+    if (d.code === 200) {
+      const slots = ['8:00-10:00','10:00-12:00','12:00-14:00','14:00-16:00','16:00-20:00','20:00-22:00'];
+      const data = d.data.slots;
+      const values = slots.map(s => data[s] || 0);
+      const max = Math.max(1, ...values);
+      document.getElementById('dayDetailBars2').innerHTML = slots.map((s, i) =>
+        '<div class="ts-bar-wrap"><div class="ts-bar-num">'+values[i]+'</div>'+
+        '<div class="ts-bar-fill" style="height:'+Math.max(4,Math.round(values[i]/max*80))+'px"></div>'+
+        '<div class="ts-bar-label">'+s+'</div></div>'
+      ).join('');
+    }
+  } catch (e) {
+    document.getElementById('dayDetailBars2').innerHTML = '<span style="color:var(--text-muted);font-size:13px;">加载失败</span>';
+  }
+}
+
+async function loadNews() {
+  try {
+    const res = await fetch(API + '/api/news/latest');
+    const data = await res.json();
+    if (data.code === 200 && data.data.length > 0) {
+      const m = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+      document.getElementById('newsList').innerHTML = data.data.map((n,i) => {
+        const d = new Date(n.publishTime);
+        return `<div class="news-item" onclick="showNewsDetail(${n.id})"><div class="news-date"><div class="day">${d.getDate()}</div><div class="month">${m[d.getMonth()]}</div></div><div style="flex:1"><div class="news-title">${n.title}</div><div class="news-preview">${n.content.substring(0,100)}...</div></div>${i===0?'<div class="news-dot"></div>':''}</div>`;
+      }).join('');
+    } else { document.getElementById('newsList').innerHTML = '<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/></svg><p>暂无通知</p></div>'; }
+  } catch (e) {}
+}
+
+async function showNewsDetail(id) {
+  try {
+    const res = await fetch(API + '/api/news/' + id);
+    const data = await res.json();
+    if (data.code === 200) {
+      const n = data.data;
+      document.getElementById('modalContent').innerHTML = `<h2>${n.title}</h2><p style="font-size:12px;color:var(--text-muted);margin-bottom:18px;">${formatDate(n.publishTime)}</p><div style="line-height:1.8;color:var(--text-secondary);">${n.content}</div>`;
+      document.getElementById('modalOverlay').classList.add('show');
+    }
+  } catch (e) {}
+}
+
+function closeModal(e) { if (e.target === document.getElementById('modalOverlay')) document.getElementById('modalOverlay').classList.remove('show'); }
+
+async function loadShop() {
+  try {
+    const res = await fetch(API + '/api/product/list');
+    const data = await res.json();
+    if (data.code === 200) {
+      document.getElementById('productsGrid').innerHTML = data.data.map(p => `
+        <div class="product-card ${p.stock<10?'low-stock':''}"><div class="product-icon">${p.image?'<img src="'+p.image+'" style="width:48px;height:48px;border-radius:10px;object-fit:cover;">':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/></svg>'}</div><div class="product-info"><div class="prod-name">${p.name}</div><div class="prod-stock ${p.stock<10?'low':''}">${p.stock<10?'仅剩'+p.stock+'件':'库存: '+p.stock+' 件'}</div></div><div class="product-price">&yen;${p.price}</div><button class="btn-buy-sm" onclick="buyProduct(${p.id})">购买</button></div>`).join('');
+    } else { document.getElementById('productsGrid').innerHTML = '<div class="empty-state"><p>暂无商品</p></div>'; }
+  } catch (e) { document.getElementById('productsGrid').innerHTML = '<div class="empty-state"><p>加载失败</p></div>'; }
+}
+
+async function buyProduct(id) {
+  if (!confirm('确认购买该商品吗？')) return;
+  try {
+    const res = await fetch(API + '/api/product/buy/' + id, { method: 'POST' });
+    const data = await res.json();
+    if (data.code === 200) { alert(data.message); loadShop(); }
+    else { alert('购买失败: ' + data.message); }
+  } catch (e) { alert('网络错误'); }
+}
+
+function formatDate(d) {
+  if (!d) return '';
+  const dt = new Date(d);
+  return dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0')+' '+String(dt.getHours()).padStart(2,'0')+':'+String(dt.getMinutes()).padStart(2,'0');
+}
+
+function showChangePwd() {
+  document.getElementById('modalContent').innerHTML = `
+    <h2>修改密码</h2>
+    <div style="margin-top:20px;">
+      <div class="form-group"><label>原密码</label><input type="password" id="oldPwd" placeholder="输入原密码"></div>
+      <div class="form-group"><label>新密码</label><input type="password" id="newPwd" placeholder="输入新密码（至少6位）"></div>
+      <div class="form-group"><label>确认新密码</label><input type="password" id="confirmPwd" placeholder="再次输入新密码"></div>
+      <div id="pwdMsg" class="msg" style="margin-bottom:14px;"></div>
+      <button class="btn btn-primary" onclick="doChangePwd()" style="width:100%;">确认修改</button>
+    </div>`;
+  document.getElementById('modalOverlay').classList.add('show');
+}
+
+async function doChangePwd() {
+  const oldPwd = document.getElementById('oldPwd').value.trim();
+  const newPwd = document.getElementById('newPwd').value.trim();
+  const confirmPwd = document.getElementById('confirmPwd').value.trim();
+  const msgEl = document.getElementById('pwdMsg');
+  msgEl.className = 'msg'; msgEl.style.display = 'none';
+  if (!oldPwd || !newPwd) { msgEl.className = 'msg msg-error show'; msgEl.textContent = '请填写所有字段'; return; }
+  if (newPwd.length < 6) { msgEl.className = 'msg msg-error show'; msgEl.textContent = '新密码至少6位'; return; }
+  if (newPwd !== confirmPwd) { msgEl.className = 'msg msg-error show'; msgEl.textContent = '两次输入的新密码不一致'; return; }
+  try {
+    const r = await fetch(API + '/api/auth/change-password', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ oldPassword: oldPwd, newPassword: newPwd })
+    });
+    const d = await r.json();
+    if (d.code === 200) {
+      msgEl.className = 'msg msg-success show'; msgEl.textContent = '密码修改成功';
+      setTimeout(() => { document.getElementById('modalOverlay').classList.remove('show'); }, 1200);
+    } else {
+      msgEl.className = 'msg msg-error show'; msgEl.textContent = d.message;
+    }
+  } catch (e) { msgEl.className = 'msg msg-error show'; msgEl.textContent = '网络错误'; }
+}
+
+let bodyChart = null;
+
+function getBmiLevel(bmi) {
+  if (bmi < 18.5) return { text: '偏瘦', cls: 'warn' };
+  if (bmi < 24) return { text: '正常', cls: 'good' };
+  if (bmi < 28) return { text: '偏胖', cls: 'warn' };
+  return { text: '肥胖', cls: 'busy' };
+}
+
+function getBodyFatLevel(bf, gender) {
+  if (gender === 1) {
+    if (bf < 10) return { text: '偏低', cls: 'warn' };
+    if (bf < 20) return { text: '标准', cls: 'good' };
+    if (bf < 25) return { text: '偏高', cls: 'warn' };
+    return { text: '肥胖', cls: 'busy' };
+  } else {
+    if (bf < 18) return { text: '偏低', cls: 'warn' };
+    if (bf < 28) return { text: '标准', cls: 'good' };
+    if (bf < 35) return { text: '偏高', cls: 'warn' };
+    return { text: '肥胖', cls: 'busy' };
+  }
+}
+
+async function loadBodyPage() {
+  try {
+    const res = await fetch(API + '/api/body/history');
+    const data = await res.json();
+    if (data.code === 200 && data.data.length > 0) {
+      const list = data.data;
+      // 最新一条
+      const latest = list[0];
+      document.getElementById('bodyBmi').textContent = latest.bmi;
+      document.getElementById('bodyFat').textContent = latest.bodyFat;
+
+      const bmiLevel = getBmiLevel(parseFloat(latest.bmi));
+      document.getElementById('bodyBmiLevel').textContent = bmiLevel.text;
+      document.getElementById('bodyBmiLevel').className = 'stat-sub ' + bmiLevel.cls;
+
+      const bfLevel = getBodyFatLevel(parseFloat(latest.bodyFat), latest.gender);
+      document.getElementById('bodyFatLevel').textContent = bfLevel.text;
+      document.getElementById('bodyFatLevel').className = 'stat-sub ' + bfLevel.cls;
+
+      // 历史表格
+      document.getElementById('bodyRecordCount').textContent = '共 ' + list.length + ' 条';
+      document.getElementById('bodyHistoryTable').innerHTML = list.map(r => {
+        const bl = getBmiLevel(parseFloat(r.bmi));
+        const bfl = getBodyFatLevel(parseFloat(r.bodyFat), r.gender);
+        return `<tr style="border-bottom:1px solid var(--border-light);">
+          <td style="padding:10px 16px;color:var(--text-secondary);">${formatDate(r.recordTime)}</td>
+          <td style="padding:10px 16px;text-align:center;">${r.height}</td>
+          <td style="padding:10px 16px;text-align:center;">${r.weight}</td>
+          <td style="padding:10px 16px;text-align:center;font-weight:600;color:var(--brand);">${r.bmi}</td>
+          <td style="padding:10px 16px;text-align:center;font-weight:600;">${r.bodyFat}%</td>
+          <td style="padding:10px 16px;text-align:center;">
+            <button onclick="deleteBody(${r.id})" style="background:none;border:1px solid #FECACA;color:#DC2626;border-radius:6px;padding:4px 12px;font-size:12px;cursor:pointer;font-family:var(--font);transition:all 0.2s;" onmouseover="this.style.background='#FEF2F2'" onmouseout="this.style.background=''">删除</button>
+          </td></tr>`;
+      }).join('');
+
+      // 曲线图
+      drawBodyChart(list);
+    } else {
+      document.getElementById('bodyBmi').textContent = '--';
+      document.getElementById('bodyFat').textContent = '--';
+      document.getElementById('bodyBmiLevel').textContent = '请录入数据';
+      document.getElementById('bodyBmiLevel').className = 'stat-sub';
+      document.getElementById('bodyFatLevel').textContent = '请录入数据';
+      document.getElementById('bodyFatLevel').className = 'stat-sub';
+      document.getElementById('bodyRecordCount').textContent = '';
+      document.getElementById('bodyHistoryTable').innerHTML = '<tr><td colspan="6" style="padding:32px;text-align:center;color:var(--text-muted);">暂无数据</td></tr>';
+      if (bodyChart) { bodyChart.destroy(); bodyChart = null; }
+    }
+  } catch (e) {
+    console.error('加载身体数据失败', e);
+  }
+}
+
+function drawBodyChart(list) {
+  const ctx = document.getElementById('bodyChart').getContext('2d');
+  if (bodyChart) bodyChart.destroy();
+
+  // 反转使最早的在左边
+  const reversed = [...list].reverse();
+  const labels = reversed.map(r => {
+    const d = new Date(r.recordTime);
+    return (d.getMonth()+1)+'/'+d.getDate();
+  });
+  const bmiData = reversed.map(r => r.bmi);
+  const bfData = reversed.map(r => r.bodyFat);
+
+  bodyChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'BMI',
+          data: bmiData,
+          borderColor: '#2563EB',
+          backgroundColor: 'rgba(37,99,235,0.06)',
+          fill: true,
+          tension: 0.4,
+          pointRadius: 4,
+          pointBackgroundColor: '#2563EB',
+          borderWidth: 2.5,
+          yAxisID: 'y'
+        },
+        {
+          label: '体脂率 (%)',
+          data: bfData,
+          borderColor: '#F59E0B',
+          backgroundColor: 'rgba(245,158,11,0.06)',
+          fill: true,
+          tension: 0.4,
+          pointRadius: 4,
+          pointBackgroundColor: '#F59E0B',
+          borderWidth: 2.5,
+          yAxisID: 'y1'
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: {
+          position: 'top',
+          labels: {
+            usePointStyle: true,
+            pointStyleWidth: 8,
+            padding: 24,
+            font: { family: "var(--font)", size: 12 },
+            color: '#64748B'
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: '#F1F5F9' },
+          ticks: { font: { size: 11 }, color: '#94A3B8' }
+        },
+        y: {
+          type: 'linear',
+          position: 'left',
+          title: { display: true, text: 'BMI', color: '#2563EB', font: { weight: 'bold', size: 12 } },
+          grid: { color: '#F1F5F9' },
+          ticks: { font: { size: 11 }, color: '#94A3B8' }
+        },
+        y1: {
+          type: 'linear',
+          position: 'right',
+          title: { display: true, text: '体脂率 (%)', color: '#F59E0B', font: { weight: 'bold', size: 12 } },
+          grid: { drawOnChartArea: false },
+          ticks: { font: { size: 11 }, color: '#94A3B8' }
+        }
+      }
+    }
+  });
+}
+
+async function saveBody() {
+  const height = document.getElementById('bodyHeight').value.trim();
+  const weight = document.getElementById('bodyWeight').value.trim();
+  const age = document.getElementById('bodyAge').value.trim();
+  const genderEl = document.querySelector('input[name="bodyGender"]:checked');
+  const gender = genderEl ? genderEl.value : '1';
+
+  if (!height || !weight || !age) {
+    alert('请填写身高、体重和年龄');
+    return;
+  }
+  if (parseFloat(height) <= 0 || parseFloat(weight) <= 0) {
+    alert('身高和体重必须大于0');
+    return;
+  }
+
+  try {
+    const res = await fetch(API + '/api/body/save', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ height, weight, gender, age })
+    });
+    const data = await res.json();
+    if (data.code === 200) {
+      alert('保存成功！');
+      document.getElementById('bodyHeight').value = '';
+      document.getElementById('bodyWeight').value = '';
+      document.getElementById('bodyAge').value = '';
+      loadBodyPage();
+    } else {
+      alert('保存失败: ' + data.message);
+    }
+  } catch (e) {
+    alert('网络错误');
+  }
+}
+
+async function deleteBody(id) {
+  if (!confirm('确认删除这条记录吗？')) return;
+  try {
+    const res = await fetch(API + '/api/body/' + id, { method: 'DELETE' });
+    const data = await res.json();
+    if (data.code === 200) {
+      alert('已删除');
+      loadBodyPage();
+    } else {
+      alert('删除失败: ' + data.message);
+    }
+  } catch (e) {
+    alert('网络错误');
+  }
+}
+
+async function doLogout() { await fetch(API + '/api/auth/logout', { method: 'POST' }); window.location.href = '/login.html'; }
+</script>
+</body>
+</html>
