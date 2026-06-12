@@ -40,6 +40,9 @@ public class GymDailyService {
     @Resource
     private EntryLogMapper entryLogMapper;
 
+    @Resource
+    private CheckinService checkinService;
+
     // 获取今日客流信息
     public GymDaily getTodayRecord() {
         GymDaily record = gymDailyMapper.findByDate(LocalDate.now());
@@ -104,6 +107,9 @@ public class GymDailyService {
         entryLog.setUserId(user.getId());
         entryLog.setStatus(1);
         entryLogMapper.insert(entryLog);
+
+        // 自动打卡（入场即打卡，心情默认💪）
+        checkinService.doCheckin(user.getId(), "💪");
 
         result.put("message", "欢迎 " + user.getUsername() + " 入场！");
         return result;

@@ -15,6 +15,7 @@ public class User {
     private String photo;
     private String vipCardNo;
     private String role;
+    private String fitnessGoal;
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
@@ -32,6 +33,8 @@ public class User {
     public void setVipCardNo(String vipCardNo) { this.vipCardNo = vipCardNo; }
     public String getRole() { return role; }
     public void setRole(String role) { this.role = role; }
+    public String getFitnessGoal() { return fitnessGoal; }
+    public void setFitnessGoal(String fitnessGoal) { this.fitnessGoal = fitnessGoal; }
     public LocalDateTime getCreateTime() { return createTime; }
     public void setCreateTime(LocalDateTime createTime) { this.createTime = createTime; }
 }

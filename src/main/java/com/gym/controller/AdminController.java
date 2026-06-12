@@ -48,6 +48,9 @@ public class AdminController {
     @Resource
     private SalesRecordMapper salesRecordMapper;
 
+    @Resource
+    private com.gym.service.CheckinService checkinService;
+
     private boolean isAdmin(HttpSession session) {
         User user = (User) session.getAttribute("user");
         return user != null && "ADMIN".equals(user.getRole());
@@ -284,5 +287,19 @@ public class AdminController {
             result.put(date.toString(), revenue != null ? revenue : BigDecimal.ZERO);
         }
         return Result.ok(result);
+    }
+
+    // ========== 打卡总览 ==========
+
+    @GetMapping("/checkins/today")
+    public Result<?> todayCheckins(HttpSession session) {
+        if (!isAdmin(session)) return Result.fail(403, "无权限");
+        return Result.ok(checkinService.getTodayOverview());
+    }
+
+    @GetMapping("/checkins/trend")
+    public Result<?> checkinTrend(@RequestParam(defaultValue = "14") int days, HttpSession session) {
+        if (!isAdmin(session)) return Result.fail(403, "无权限");
+        return Result.ok(checkinService.getCheckinTrend(days));
     }
 }

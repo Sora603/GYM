@@ -978,6 +978,58 @@
     color: var(--text-muted);
     white-space: nowrap;
   }
+
+  /* ===== 天气条 ===== */
+  .weather-bar {
+    background: linear-gradient(135deg, #EFF6FF, #F0F9FF);
+    border-bottom: 1px solid rgba(37,99,235,0.08);
+    padding: 8px 28px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    height: 36px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .weather-bar .wb-date { color: var(--text); font-weight: 600; }
+  .weather-bar .wb-divider { width: 1px; height: 16px; background: rgba(37,99,235,0.15); }
+  .weather-bar .wb-weather { color: var(--text-secondary); display: flex; align-items: center; gap: 4px; }
+  .weather-bar .wb-weather .wb-icon { font-size: 16px; }
+  .weather-bar .wb-city { color: var(--text-muted); font-size: 11px; margin-left: auto; cursor: pointer; }
+  .weather-bar .wb-city:hover { color: var(--brand); }
+
+  /* ===== 打卡总览页 ===== */
+  .co-hero {
+    background: linear-gradient(135deg, #EFF6FF, #FFFFFF);
+    border: 1px solid rgba(37,99,235,0.1);
+    border-radius: var(--radius);
+    padding: 28px 32px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .co-hero .co-date {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+
+  .co-hero .co-weather {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .checkin-trend-chart {
+    height: 260px;
+    position: relative;
+    margin-top: 16px;
+  }
 </style>
 </head>
 <body>
@@ -1029,6 +1081,10 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
       销售记录
     </div>
+    <div class="nav-item" data-page="checkin-overview" onclick="switchPage('checkin-overview')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      打卡总览
+    </div>
   </nav>
 
   <div class="sidebar-footer">
@@ -1053,6 +1109,14 @@
       </button>
     </div>
   </header>
+
+  <!-- 天气条 -->
+  <div class="weather-bar" id="weatherBar">
+    <span class="wb-date" id="wbDate"></span>
+    <span class="wb-divider"></span>
+    <span class="wb-weather" id="wbWeather"><span class="wb-icon">🌤</span><span id="wbTemp">--°C</span> <span id="wbDesc"></span></span>
+    <span class="wb-city" id="wbCity" onclick="changeCity()" title="点击切换城市">📍 <span id="wbCityName">北京</span></span>
+  </div>
 
   <main class="content">
 
@@ -1362,6 +1426,61 @@
       </div>
     </div>
 
+    <!-- 打卡总览 -->
+    <div id="page-checkin-overview" class="page">
+      <div class="page-header">
+        <div class="page-title">打卡总览</div>
+        <div class="page-sub">查看会员每日打卡数据</div>
+      </div>
+
+      <div class="co-hero">
+        <div class="co-date" id="coDate"></div>
+        <div class="co-weather" id="coWeather"></div>
+      </div>
+
+      <div class="bento-grid" style="margin-bottom:24px;">
+        <div class="bento-card">
+          <div class="bento-mini">
+            <div class="bento-mini-icon si-green-bg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/></svg></div>
+            <div><div class="bento-mini-num" id="coCheckinCount">-</div><div class="bento-mini-label">今日打卡人数</div></div>
+          </div>
+        </div>
+        <div class="bento-card">
+          <div class="bento-mini">
+            <div class="bento-mini-icon si-blue-bg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+            <div><div class="bento-mini-num" id="coTotalMembers">-</div><div class="bento-mini-label">总会员数</div></div>
+          </div>
+        </div>
+        <div class="bento-card">
+          <div class="bento-mini">
+            <div class="bento-mini-icon si-purple-bg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+            <div><div class="bento-mini-num" id="coRate">-</div><div class="bento-mini-label">打卡率</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 打卡趋势图 -->
+      <div class="card" style="margin-bottom:24px;">
+        <div class="card-header">📈 近14天打卡趋势</div>
+        <div class="card-body">
+          <div class="checkin-trend-chart"><canvas id="checkinTrendChart"></canvas></div>
+        </div>
+      </div>
+
+      <!-- 今日打卡会员列表 -->
+      <div class="card">
+        <div class="card-header">今日打卡会员</div>
+        <div class="card-body">
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>头像</th><th>用户名</th><th>打卡时间</th></tr></thead>
+              <tbody id="coCheckinList"><tr><td colspan="3" style="padding:32px;text-align:center;color:var(--text-muted);">加载中...</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- 销售记录 -->
     <div id="page-sales" class="page">
       <div class="page-header">
@@ -1396,6 +1515,7 @@ const API = '';
     const data = await res.json();
     if (data.code !== 200 || data.data.role !== 'ADMIN') { window.location.href = '/login.html'; return; }
     loadDashboard();
+    loadWeather();
   } catch (e) { window.location.href = '/login.html'; }
 })();
 
@@ -1407,7 +1527,8 @@ const PAGE_TITLES = {
   products: '商品管理',
   news: '新闻管理',
   'body-data': '会员身体数据',
-  sales: '销售记录'
+  sales: '销售记录',
+  'checkin-overview': '打卡总览'
 };
 
 function switchPage(p) {
@@ -1416,7 +1537,7 @@ function switchPage(p) {
   document.querySelector(`[data-page="${p}"]`).classList.add('active');
   document.getElementById('page-' + p).classList.add('active');
   document.getElementById('breadcrumb').innerHTML = (PAGE_TITLES[p] || p) + ' <span>/ 管理中心</span>';
-  ({dashboard:loadDashboard,entry:loadEntry,members:loadMembers,coaches:loadCoaches,products:loadProducts,news:loadNewsAdmin,'body-data':loadBodyData,sales:loadSales}[p]||(()=>{}))();
+  ({dashboard:loadDashboard,entry:loadEntry,members:loadMembers,coaches:loadCoaches,products:loadProducts,news:loadNewsAdmin,'body-data':loadBodyData,sales:loadSales,'checkin-overview':loadCheckinOverview}[p]||(()=>{}))();
 }
 
 async function loadDashboard() {
@@ -2042,6 +2163,116 @@ async function deleteSales(id) {
 }
 
 function formatDate(d){if(!d)return'';const dt=new Date(d);return dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0')+' '+String(dt.getHours()).padStart(2,'0')+':'+String(dt.getMinutes()).padStart(2,'0');}
+// ===== 天气 =====
+var WEATHER_CITY_KEY = 'gym_city';
+function getCity() { return localStorage.getItem(WEATHER_CITY_KEY) || '北京'; }
+function changeCity() {
+  var city = prompt('请输入城市名称（拼音或中文）：', getCity());
+  if (city && city.trim()) { localStorage.setItem(WEATHER_CITY_KEY, city.trim()); loadWeather(); }
+}
+
+async function loadWeather() {
+  var city = getCity();
+  document.getElementById('wbCityName').textContent = city;
+  var now = new Date();
+  var weekNames = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+  document.getElementById('wbDate').textContent = now.getFullYear()+'年'+(now.getMonth()+1)+'月'+now.getDate()+'日 '+weekNames[now.getDay()];
+  try {
+    var res = await fetch('https://wttr.in/' + encodeURIComponent(city) + '?format=j1');
+    if (!res.ok) throw new Error('fetch failed');
+    var data = await res.json();
+    var current = data.current_condition[0];
+    var temp = current.temp_C + '°C';
+    var desc = current.weatherDesc[0].value;
+    var code = parseInt(current.weatherCode);
+    var icon = '🌤';
+    if (code >= 200 && code < 300) icon = '⛈';
+    else if (code >= 300 && code < 400) icon = '🌦';
+    else if (code >= 500 && code < 600) icon = '🌧';
+    else if (code >= 600 && code < 700) icon = '🌨';
+    else if (code >= 700 && code < 800) icon = '🌫';
+    else if (code === 800) icon = '☀️';
+    else if (code > 800) icon = '⛅';
+    document.getElementById('wbWeather').innerHTML = '<span class="wb-icon">'+icon+'</span><span id="wbTemp">'+temp+'</span> <span id="wbDesc">'+desc+'</span>';
+  } catch (e) {
+    document.getElementById('wbWeather').innerHTML = '<span class="wb-icon">📍</span><span style="color:var(--text-muted);">天气暂不可用</span>';
+  }
+}
+
+// ===== 打卡总览 =====
+var checkinTrendChart = null;
+
+async function loadCheckinOverview() {
+  var now = new Date();
+  var weekNames = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+  document.getElementById('coDate').textContent = now.getFullYear()+'年'+(now.getMonth()+1)+'月'+now.getDate()+'日 '+weekNames[now.getDay()];
+  document.getElementById('coWeather').innerHTML = document.getElementById('wbWeather').innerHTML;
+
+  try {
+    // 仪表盘数据（获取总会员数）
+    var dr = await fetch(API + '/api/admin/dashboard');
+    var dd = await dr.json();
+    if (dd.code === 200) {
+      document.getElementById('coTotalMembers').textContent = dd.data.totalMembers;
+    }
+  } catch (e) {}
+
+  try {
+    var res = await fetch(API + '/api/admin/checkins/today');
+    var data = await res.json();
+    if (data.code === 200) {
+      var ov = data.data;
+      document.getElementById('coCheckinCount').textContent = ov.count;
+      // 打卡率
+      var totalMembers = parseInt(document.getElementById('coTotalMembers').textContent) || 1;
+      var rate = Math.round((ov.count / totalMembers) * 100);
+      document.getElementById('coRate').textContent = rate + '%';
+
+      // 会员列表
+      if (ov.list && ov.list.length > 0) {
+        var html = '';
+        ov.list.forEach(function(c) {
+          html += '<tr><td>' + (c.photo ? '<img src="'+c.photo+'" style="width:36px;height:36px;border-radius:10px;object-fit:cover;">' : '<div style="width:36px;height:36px;border-radius:10px;background:#F3F4F6;display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:var(--text-muted);">'+(c.username||'?').charAt(0).toUpperCase()+'</div>') + '</td><td style="font-weight:600;">'+c.username+'</td><td>'+formatDate(c.createTime)+'</td></tr>';
+        });
+        document.getElementById('coCheckinList').innerHTML = html;
+      } else {
+        document.getElementById('coCheckinList').innerHTML = '<tr><td colspan="3" style="padding:32px;text-align:center;color:var(--text-muted);">今日暂无打卡记录</td></tr>';
+      }
+    }
+  } catch (e) { document.getElementById('coCheckinList').innerHTML = '<tr><td colspan="3" style="padding:32px;text-align:center;color:var(--text-muted);">加载失败</td></tr>'; }
+
+  // 打卡趋势图
+  try {
+    var tr = await fetch(API + '/api/admin/checkins/trend?days=14');
+    var td = await tr.json();
+    if (td.code === 200) {
+      var labels = [], values = [];
+      td.data.forEach(function(item) {
+        labels.push(item.date.substring(5)); // MM-DD
+        values.push(item.count);
+      });
+      var ctx = document.getElementById('checkinTrendChart').getContext('2d');
+      if (checkinTrendChart) checkinTrendChart.destroy();
+      checkinTrendChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{ label: '打卡人数', data: values, backgroundColor: '#2563EB', borderRadius: 6, barThickness: 22 }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { grid: { display: false }, ticks: { font: { size: 11 }, color: '#94A3B8' } },
+            y: { grid: { color: '#F1F5F9' }, ticks: { font: { size: 11 }, color: '#94A3B8', stepSize: 1 } }
+          }
+        }
+      });
+    }
+  } catch (e) {}
+}
+
 async function doLogout(){await fetch(API+'/api/auth/logout',{method:'POST'});window.location.href='/login.html';}
 </script>
 </body>
