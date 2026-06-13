@@ -4,102 +4,99 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e6cc66a4-cfe0-4cf8-a238-adee580ade85" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/111.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ER图.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PowerFit Gym.lnk" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/create-shortcut.ps1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/djh.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gym-uploads/0aaf4ac4-9c27-4368-982a-219b34942ff7.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gym-uploads/1cf8b633-262d-4987-8c84-0d23fb72a27d.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gym-uploads/31ae0ee4-f947-48ac-8504-8da2f812ceec.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gym-uploads/4e185d6c-5f93-40e6-8ebd-30943efbfc2a.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gym-uploads/54daf9d8-b0cf-4701-bc67-c5f3ec30acc2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gym-uploads/5fe02588-8f86-4f24-aa47-701b6f991f56.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gym-uploads/67651cd3-25ca-45a5-bc2b-62e0d85d1193.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gym-uploads/91cc714f-e97c-49f3-8522-bf2995f68c63.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gym-uploads/acac1ba1-7c13-4c41-9c3a-8e5c5f829185.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gym-uploads/coaches/coach1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gym-uploads/coaches/coach2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gym-uploads/coaches/coach3.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gym-uploads/ea48237c-9a1c-46a4-be85-c85fb29561de.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gym-uploads/f163060f-7a9e-49aa-9b91-a8ff21061ff9.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gym-uploads/f296ef63-06da-487e-a402-81a2d2a5e0d5.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/init.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql/init.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/文档demo/概念结构设计.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/文档demo/物理结构设计.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/文档demo/物理结构设计要求.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/文档demo/逻辑结构设计.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/文档demo/需求分析.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/文档demo/需求分析规格说明书.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/文档demo/需求分析规格说明书目录模板.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/GymApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/GymApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/PasswordGen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/PasswordGen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/common/Result.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/common/Result.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/config/DataInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/config/DataInitializer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/config/MyMetaObjectHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/config/MyMetaObjectHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/config/WebMvcConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/config/WebMvcConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/controller/AdminController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/controller/CardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/controller/CardController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/controller/CoachController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/controller/CoachController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/controller/GymEntryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/controller/GymEntryController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/controller/NewsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/controller/NewsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/controller/ProductController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/controller/UploadController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/controller/UploadController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/controller/UserBodyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/controller/UserBodyController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/entity/Coach.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/entity/Coach.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/entity/EntryLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/entity/EntryLog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/entity/GymDaily.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/entity/GymDaily.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/entity/GymTimeslot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/entity/GymTimeslot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/entity/MembershipCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/entity/MembershipCard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/entity/News.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/entity/News.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/entity/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/entity/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/entity/SalesRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/entity/SalesRecord.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/entity/UserBodyInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/entity/UserBodyInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/entity/UserCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/entity/UserCard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/mapper/CoachMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/mapper/CoachMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/mapper/EntryLogMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/mapper/EntryLogMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/mapper/GymDailyMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/mapper/GymDailyMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/mapper/GymTimeslotMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/mapper/GymTimeslotMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/mapper/MembershipCardMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/mapper/MembershipCardMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/mapper/NewsMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/mapper/NewsMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/mapper/ProductMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/mapper/ProductMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/mapper/SalesRecordMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/mapper/SalesRecordMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/mapper/UserBodyInfoMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/mapper/UserBodyInfoMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/mapper/UserCardMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/mapper/UserCardMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/mapper/UserMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/service/CardService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/service/CardService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/service/CoachService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/service/CoachService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/service/GymDailyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/service/GymDailyService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/service/NewsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/service/NewsService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/service/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/service/ProductService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/service/UserBodyInfoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/service/UserBodyInfoService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gym/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gym/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
+    <list default="true" id="af0fe933-437e-423c-ba3f-a8bca46c5a66" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__ch_qos_logback_logback_classic_1_2_12.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__ch_qos_logback_logback_core_1_2_12.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_baomidou_mybatis_plus_3_5_3_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_baomidou_mybatis_plus_annotation_3_5_3_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_baomidou_mybatis_plus_boot_starter_3_5_3_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_baomidou_mybatis_plus_core_3_5_3_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_baomidou_mybatis_plus_extension_3_5_3_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_classmate_1_5_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_annotations_2_13_5.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_13_5.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_databind_2_13_5.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_datatype_jackson_datatype_jdk8_2_13_5.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_datatype_jackson_datatype_jsr310_2_13_5.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_module_jackson_module_parameter_names_2_13_5.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_jsqlparser_jsqlparser_4_4.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_jayway_jsonpath_json_path_2_7_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_mysql_mysql_connector_j_8_0_33.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_vaadin_external_google_android_json_0_0_20131108_vaadin1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_zaxxer_HikariCP_4_0_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__jakarta_activation_jakarta_activation_api_1_2_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__jakarta_annotation_jakarta_annotation_api_1_3_5.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__jakarta_validation_jakarta_validation_api_2_0_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__jakarta_xml_bind_jakarta_xml_bind_api_2_3_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_bytebuddy_byte_buddy_1_12_23.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_bytebuddy_byte_buddy_agent_1_12_23.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_minidev_accessors_smart_2_4_11.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_minidev_json_smart_2_4_11.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_logging_log4j_log4j_api_2_17_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_logging_log4j_log4j_to_slf4j_2_17_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tomcat_embed_tomcat_embed_core_9_0_83.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tomcat_embed_tomcat_embed_el_9_0_83.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tomcat_embed_tomcat_embed_websocket_9_0_83.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apiguardian_apiguardian_api_1_1_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_assertj_assertj_core_3_22_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_hamcrest_hamcrest_2_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_hibernate_validator_hibernate_validator_6_2_5_Final.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_jboss_logging_jboss_logging_3_4_3_Final.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_5_8_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_api_5_8_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_engine_5_8_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_params_5_8_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_platform_junit_platform_commons_1_8_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_platform_junit_platform_engine_1_8_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_mockito_mockito_core_4_5_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_mockito_mockito_junit_jupiter_4_5_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_mybatis_mybatis_3_5_10.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_mybatis_mybatis_spring_2_0_7.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_objenesis_objenesis_3_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_opentest4j_opentest4j_1_2_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_ow2_asm_asm_9_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_projectlombok_lombok_1_18_30.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_skyscreamer_jsonassert_1_5_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_jul_to_slf4j_1_7_36.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_36.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_2_7_18.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_autoconfigure_2_7_18.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_2_7_18.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_jdbc_2_7_18.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_json_2_7_18.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_logging_2_7_18.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_test_2_7_18.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_tomcat_2_7_18.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_validation_2_7_18.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_web_2_7_18.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_test_2_7_18.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_test_autoconfigure_2_7_18.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_crypto_5_7_11.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_aop_5_3_31.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_beans_5_3_31.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_context_5_3_31.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_core_5_3_31.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_expression_5_3_31.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_jcl_5_3_31.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_jdbc_5_3_31.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_test_5_3_31.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_tx_5_3_31.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_web_5_3_31.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_webmvc_5_3_31.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_xmlunit_xmlunit_core_2_9_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_yaml_snakeyaml_1_30.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gym-management.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/admin.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/admin.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/login.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/user.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/user.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/start.bat" beforeDir="false" afterPath="$PROJECT_DIR$/start.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gym/controller/AdminController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gym/controller/AdminController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gym/entity/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gym/entity/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gym/service/CardService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gym/service/CardService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gym/service/GymDailyService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gym/service/GymDailyService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/static/admin.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/admin.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/static/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/login.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/static/user.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/user.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/gym-management-1.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/gym-management-1.0.0.jar.original" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/曾凡俊牛逼.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,54 +116,25 @@
       </MavenGeneralSettings>
     </option>
   </component>
-  <component name="ProjectId" id="3F2BRCtTgAetHRlvXh77IJaiPa2" />
+  <component name="ProjectId" id="3F3mln32agRvf5hCDBelhR3whdQ" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true"
   }
-}</component>
-  <component name="RunManager">
-    <configuration name="GymApplication" type="Application" factoryName="Application" nameIsGenerated="true">
-      <option name="ALTERNATIVE_JRE_PATH" value="21" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-      <option name="MAIN_CLASS_NAME" value="com.gym.GymApplication" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.gym.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="gym-management" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="gym-management" />
-      <option name="filePath" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-  </component>
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="e6cc66a4-cfe0-4cf8-a238-adee580ade85" name="Changes" comment="" />
-      <created>1781263275902</created>
+      <changelist id="af0fe933-437e-423c-ba3f-a8bca46c5a66" name="Changes" comment="" />
+      <created>1781312282975</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1781263275902</updated>
+      <updated>1781312282975</updated>
     </task>
     <servers />
   </component>
