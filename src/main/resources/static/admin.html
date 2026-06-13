@@ -1249,6 +1249,16 @@
       </div>
     </div>
 
+    <!-- 会员详情Modal（打卡+训练） -->
+    <div class="modal-overlay" id="memberStatsModal" onclick="if(event.target===this)closeMemberStatsModal()">
+      <div class="modal" style="max-width:720px;">
+        <button class="close-btn" onclick="closeMemberStatsModal()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <div id="memberStatsContent"></div>
+      </div>
+    </div>
+
     <!-- 教练管理 -->
     <div id="page-coaches" class="page">
       <div class="page-header">
@@ -1645,7 +1655,7 @@ async function saveCardPrice(id) {
 async function loadMembers() {
   try {
     const r = await fetch(API + '/api/admin/members'); const d = await r.json();
-    if (d.code === 200) document.getElementById('memberTableBody').innerHTML = d.data.map(u => `<tr><td>#${u.id}</td><td>${u.photo?'<img src="'+u.photo+'" style="width:36px;height:36px;border-radius:10px;object-fit:cover;">':'<div style="width:36px;height:36px;border-radius:10px;background:#F3F4F6;display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:var(--text-muted);">'+(u.username||'?').charAt(0).toUpperCase()+'</div>'}</td><td style="font-weight:600;">${u.username}</td><td>${u.phone||'-'}</td><td>${u.vipCardNo?'<span class="tag tag-gold">'+u.vipCardNo+'</span>':'<span class="tag tag-amber">未激活</span>'}</td><td>${formatDate(u.createTime)}</td><td><button class="btn btn-outline btn-sm" onclick="editMember(${u.id})">编辑</button> <button class="btn btn-danger btn-sm" onclick="deleteMember(${u.id})">删除</button></td></tr>`).join('');
+    if (d.code === 200) document.getElementById('memberTableBody').innerHTML = d.data.map(u => `<tr><td>#${u.id}</td><td>${u.photo?'<img src="'+u.photo+'" style="width:36px;height:36px;border-radius:10px;object-fit:cover;">':'<div style="width:36px;height:36px;border-radius:10px;background:#F3F4F6;display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:var(--text-muted);">'+(u.username||'?').charAt(0).toUpperCase()+'</div>'}</td><td style="font-weight:600;">${u.username}</td><td>${u.phone||'-'}</td><td>${u.vipCardNo?'<span class="tag tag-gold">'+u.vipCardNo+'</span>':'<span class="tag tag-amber">未激活</span>'}</td><td>${formatDate(u.createTime)}</td><td><button class="btn btn-outline btn-sm" onclick="editMember(${u.id})">编辑</button> <button class="btn btn-primary btn-sm" onclick="viewMemberStats(${u.id})" style="margin:0 4px;">详情</button> <button class="btn btn-danger btn-sm" onclick="deleteMember(${u.id})">删除</button></td></tr>`).join('');
   } catch (e) { document.getElementById('memberTableBody').innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:32px;">加载失败</td></tr>'; }
 }
 
@@ -1710,6 +1720,183 @@ async function saveMember(id) {
 
 
 function closeMemberModal() { document.getElementById('memberModal').classList.remove('show'); document.getElementById('memberModal').style.display='none'; }
+
+function closeMemberStatsModal() { document.getElementById('memberStatsModal').classList.remove('show'); document.getElementById('memberStatsModal').style.display='none'; }
+
+async function viewMemberStats(id) {
+  try {
+    var r = await fetch(API + '/api/admin/members/' + id + '/stats');
+    var d = await r.json();
+    if (d.code !== 200) { alert(d.message); return; }
+    var s = d.data;
+    var moodEmoji = { great: '😄', good: '🙂', normal: '😐', tired: '😫', bad: '😢' };
+    var moodMap = { great: '精力充沛', good: '状态不错', normal: '一般般', tired: '有点累', bad: '不在状态' };
+
+    // 徽章
+    var badgesHtml = '';
+    if (s.badges && s.badges.length > 0) {
+      badgesHtml = '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;">' +
+        s.badges.map(function(b) {
+          var bg = b.unlocked ? 'var(--green-bg)' : '#F3F4F6';
+          var border = b.unlocked ? '#A7F3D0' : 'var(--border)';
+          var color = b.unlocked ? '#059669' : 'var(--text-muted)';
+          return '<div style="padding:10px 14px;border-radius:10px;background:' + bg + ';border:1px solid ' + border + ';min-width:80px;text-align:center;">' +
+            '<div style="font-size:22px;">' + (b.unlocked ? b.icon : '🔒') + '</div>' +
+            '<div style="font-size:11px;font-weight:600;color:' + color + ';">' + b.name + '</div>' +
+            '<div style="font-size:10px;color:var(--text-muted);">' + b.progress + '/' + b.target + '</div>' +
+            '</div>';
+        }).join('') +
+        '</div>';
+    }
+
+    // 本周回顾
+    var weekHtml = '';
+    if (s.weekReview && s.weekReview.length > 0) {
+      weekHtml = '<div style="display:flex;gap:6px;margin-top:8px;">' +
+        s.weekReview.map(function(w) {
+          var bg = w.isFuture ? '#F9FAFB' : (w.checked ? 'var(--green-bg)' : '#FEF2F2');
+          var border = w.isFuture ? 'var(--border)' : (w.checked ? '#A7F3D0' : '#FECACA');
+          var text = w.isFuture ? 'var(--text-muted)' : (w.checked ? '#059669' : '#DC2626');
+          return '<div style="flex:1;padding:8px 4px;border-radius:8px;background:' + bg + ';border:1px solid ' + border + ';text-align:center;' + (w.isToday ? 'box-shadow:0 0 0 2px var(--brand);' : '') + '">' +
+            '<div style="font-size:10px;color:var(--text-muted);">' + w.dayShort + '</div>' +
+            '<div style="font-size:16px;margin-top:2px;color:' + text + ';">' + (w.isFuture ? '·' : (w.checked ? '✓' : '✗')) + '</div>' +
+            '<div style="font-size:9px;color:' + text + ';">' + (w.checked && w.mood ? (moodEmoji[w.mood] || '') : '') + '</div>' +
+            '</div>';
+        }).join('') +
+        '</div>';
+    }
+
+    // 最近记录
+    var timelineHtml = '';
+    if (s.recentTimeline && s.recentTimeline.length > 0) {
+      timelineHtml = '<div style="margin-top:8px;">' +
+        s.recentTimeline.map(function(t, i) {
+          return '<div style="display:flex;align-items:center;gap:10px;padding:6px 0;' + (i > 0 ? 'border-top:1px solid var(--border-light);' : '') + '">' +
+            '<span style="font-size:12px;color:var(--text-secondary);min-width:80px;">' + (t.date ? t.date.substring(5) : '') + '</span>' +
+            '<span style="font-size:12px;color:var(--text-muted);min-width:40px;">' + (t.time || '') + '</span>' +
+            '<span style="font-size:16px;">' + (moodEmoji[t.mood] || '') + '</span>' +
+            '<span style="font-size:12px;color:var(--text-secondary);">' + (moodMap[t.mood] || '') + '</span>' +
+            '</div>';
+        }).join('') +
+        '</div>';
+    }
+
+    // 身体数据
+    var bodyHtml = '';
+    if (s.latestBody) {
+      var b = s.latestBody;
+      bodyHtml = '<div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:8px;">' +
+        '<div><span style="font-size:12px;color:var(--text-muted);">身高</span><div style="font-weight:700;color:var(--text);">' + (b.height || '-') + ' cm</div></div>' +
+        '<div><span style="font-size:12px;color:var(--text-muted);">体重</span><div style="font-weight:700;color:var(--text);">' + (b.weight || '-') + ' kg</div></div>' +
+        '<div><span style="font-size:12px;color:var(--text-muted);">BMI</span><div style="font-weight:700;color:var(--brand);">' + (b.bmi || '-') + '</div></div>' +
+        '<div><span style="font-size:12px;color:var(--text-muted);">体脂率</span><div style="font-weight:700;color:var(--text);">' + (b.bodyFat != null ? b.bodyFat + '%' : '-') + '</div></div>' +
+        '</div>';
+    }
+
+    // 训练计划
+    var trainingHtml = '';
+    if (s.trainings && s.trainings.length > 0) {
+      trainingHtml = '<div style="margin-top:8px;"><div style="display:flex;flex-wrap:wrap;gap:6px;">' +
+        s.trainings.map(function(t) {
+          var bg = t.dayType === 'REST' ? '#FFFBEB' : 'var(--blue-bg)';
+          var border = t.dayType === 'REST' ? '#FDE68A' : '#BFDBFE';
+          var color = t.dayType === 'REST' ? '#D97706' : 'var(--brand)';
+          return '<div style="padding:8px 12px;border-radius:8px;background:' + bg + ';border:1px solid ' + border + ';min-width:85px;text-align:center;">' +
+            '<div style="font-size:11px;font-weight:600;color:' + color + ';">' + t.dayName + '</div>' +
+            '<div style="font-size:11px;color:var(--text);margin-top:2px;">' + (t.dayType === 'REST' ? '休息' : (t.focus || '')) + '</div>' +
+            '</div>';
+        }).join('') +
+        '</div></div>';
+    }
+
+    // 组装内容
+    var goalColor = s.trainingGoalLabel === '增肌' ? 'var(--brand)' : '#EC4899';
+    var goalBg = s.trainingGoalLabel === '增肌' ? 'var(--blue-bg)' : '#FDF2F8';
+    var goalBorder = s.trainingGoalLabel === '增肌' ? '#BFDBFE' : '#FBCFE8';
+
+    document.getElementById('memberStatsContent').innerHTML =
+      '<div style="display:flex;align-items:flex-start;gap:20px;margin-bottom:20px;">' +
+        (s.photo ? '<img src="' + s.photo + '" style="width:72px;height:72px;border-radius:14px;object-fit:cover;border:2px solid var(--border);flex-shrink:0;">' :
+          '<div style="width:72px;height:72px;border-radius:14px;background:#F3F4F6;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:var(--text-muted);flex-shrink:0;">' + (s.username || '?').charAt(0).toUpperCase() + '</div>') +
+        '<div style="flex:1;min-width:0;">' +
+          '<h2 style="margin-bottom:4px;">' + (s.username || '') + '</h2>' +
+          '<div style="font-size:13px;color:var(--text-secondary);">' + (s.phone || '无手机号') + '</div>' +
+          '<div style="margin-top:4px;display:flex;gap:8px;flex-wrap:wrap;">' +
+            (s.vipCardNo ? '<span class="tag tag-gold">' + s.vipCardNo + '</span>' : '<span class="tag tag-amber">未激活</span>') +
+            '<span style="display:inline-block;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600;background:' + goalBg + ';border:1px solid ' + goalBorder + ';color:' + goalColor + ';">目标: ' + s.trainingGoalLabel + '</span>' +
+            (s.trainingDays > 0 ? '<span class="tag tag-green">一周' + s.trainingDays + '练</span>' : '') +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+
+      // 统计卡片
+      '<div style="display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap;">' +
+        '<div style="flex:1;min-width:100px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;">' +
+          '<div style="font-size:24px;font-weight:800;color:' + (s.streak >= 7 ? '#059669' : 'var(--text)') + ';">' + (s.streak || 0) + '</div>' +
+          '<div style="font-size:11px;color:var(--text-muted);">连续打卡(天)</div>' +
+        '</div>' +
+        '<div style="flex:1;min-width:100px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;">' +
+          '<div style="font-size:24px;font-weight:800;color:var(--text);">' + (s.monthCount || 0) + '</div>' +
+          '<div style="font-size:11px;color:var(--text-muted);">本月打卡</div>' +
+        '</div>' +
+        '<div style="flex:1;min-width:100px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;">' +
+          '<div style="font-size:24px;font-weight:800;color:var(--text);">' + (s.totalCount || 0) + '</div>' +
+          '<div style="font-size:11px;color:var(--text-muted);">累计打卡</div>' +
+        '</div>' +
+        '<div style="flex:1;min-width:100px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;">' +
+          '<div style="font-size:24px;font-weight:800;color:' + (s.checkedToday ? '#059669' : 'var(--text-muted)') + ';">' + (s.checkedToday ? '✓' : '✗') + '</div>' +
+          '<div style="font-size:11px;color:var(--text-muted);">今日打卡</div>' +
+        '</div>' +
+      '</div>' +
+
+      // 今日状态
+      (s.checkedToday && s.todayMood ? '<div style="margin-bottom:16px;padding:10px 14px;background:var(--green-bg);border:1px solid #A7F3D0;border-radius:8px;font-size:13px;color:#059669;display:flex;align-items:center;gap:8px;"><span style="font-size:18px;">' + (moodEmoji[s.todayMood] || '') + '</span> 今日心情: ' + (moodMap[s.todayMood] || s.todayMood) + '</div>' : '<div style="margin-bottom:16px;padding:10px 14px;background:#F9FAFB;border:1px solid var(--border);border-radius:8px;font-size:13px;color:var(--text-muted);">今日尚未打卡</div>') +
+
+      // 本周回顾
+      '<div style="margin-bottom:18px;">' +
+        '<div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;">本周回顾</div>' +
+        weekHtml +
+      '</div>' +
+
+      // 徽章
+      (badgesHtml ? '<div style="margin-bottom:18px;">' +
+        '<div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;">成就徽章</div>' +
+        badgesHtml +
+      '</div>' : '') +
+
+      // 个人纪录
+      (s.personalRecords ? '<div style="margin-bottom:18px;">' +
+        '<div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;">个人纪录</div>' +
+        '<div style="display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--text-secondary);">' +
+          '<span>最长连续: <b style="color:var(--text);">' + (s.personalRecords.maxStreak || 0) + '</b> 天</span>' +
+          '<span>单月最多: <b style="color:var(--text);">' + (s.personalRecords.maxMonth || 0) + '</b> 天</span>' +
+          '<span>本周: <b style="color:var(--text);">' + (s.personalRecords.weekCount || 0) + '</b> 天</span>' +
+        '</div></div>' : '') +
+
+      // 最近打卡
+      '<div style="margin-bottom:18px;">' +
+        '<div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;">最近打卡记录</div>' +
+        timelineHtml +
+      '</div>' +
+
+      // 身体数据
+      (bodyHtml ? '<div style="margin-bottom:18px;">' +
+        '<div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;">身体数据 (最新)</div>' +
+        bodyHtml +
+      '</div>' : '') +
+
+      // 训练计划
+      (trainingHtml ? '<div style="margin-bottom:8px;">' +
+        '<div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;">训练计划 (周)</div>' +
+        trainingHtml +
+      '</div>' : '');
+
+    document.getElementById('memberStatsModal').classList.add('show');
+    document.getElementById('memberStatsModal').style.display = 'flex';
+  } catch (e) {
+    alert('加载失败');
+  }
+}
 
 async function loadEntry() {
   try{const r=await fetch(API+'/api/gym/count');const d=await r.json();if(d.code===200){document.getElementById('entryGymCount').textContent=d.data.currentCount;document.getElementById('entryTotalIn').textContent=d.data.totalIn;}}catch(e){}

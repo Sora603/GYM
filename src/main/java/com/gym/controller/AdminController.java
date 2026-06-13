@@ -51,6 +51,9 @@ public class AdminController {
     @Resource
     private com.gym.service.CheckinService checkinService;
 
+    @Resource
+    private com.gym.service.TrainingService trainingService;
+
     private boolean isAdmin(HttpSession session) {
         User user = (User) session.getAttribute("user");
         return user != null && "ADMIN".equals(user.getRole());
@@ -130,6 +133,44 @@ public class AdminController {
         data.put("user", user);
         data.put("cards", cards);
         return Result.ok(data);
+    }
+
+    // 会员打卡与训练统计
+    @GetMapping("/members/{id}/stats")
+    public Result<?> memberStats(@PathVariable Long id, HttpSession session) {
+        if (!isAdmin(session)) return Result.fail(403, "无权限");
+        User user = userMapper.selectById(id);
+        if (user == null) return Result.fail("会员不存在");
+
+        Map<String, Object> stats = checkinService.getStatus(id);
+        stats.put("username", user.getUsername());
+        stats.put("phone", user.getPhone());
+        stats.put("photo", user.getPhoto());
+        stats.put("vipCardNo", user.getVipCardNo());
+        stats.put("fitnessGoal", user.getFitnessGoal());
+        stats.put("memberId", user.getId());
+
+        if (user.getFitnessGoal() != null && !user.getFitnessGoal().isEmpty()) {
+            stats.put("trainingGoalLabel", "BUILD".equals(user.getFitnessGoal()) ? "增肌" : "减脂");
+            Map<String, Object> plan = trainingService.getFullPlan(user.getFitnessGoal());
+            @SuppressWarnings("unchecked")
+            List<Map<String, Object>> trainings = (List<Map<String, Object>>) plan.get("trainings");
+            int trainingDays = 0;
+            if (trainings != null) {
+                for (Map<String, Object> t : trainings) {
+                    if (!"REST".equals(t.get("dayType"))) trainingDays++;
+                }
+            }
+            stats.put("trainingDays", trainingDays);
+            stats.put("totalWeekDays", trainings != null ? trainings.size() : 0);
+            stats.put("trainings", trainings);
+        } else {
+            stats.put("trainingGoalLabel", "未设置");
+            stats.put("trainingDays", 0);
+            stats.put("totalWeekDays", 0);
+        }
+
+        return Result.ok(stats);
     }
 
     // 编辑会员信息
