@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 D:\我是超级大学生\数据库\Last\Gym (2)(1)\Gym (2)(1)\Gym\gym\src\main\java\com\gym\mapper\UserCardMapper.java
 D:\我是超级大学生\数据库\Last\Gym (2)(1)\Gym (2)(1)\Gym\gym\src\main\java\com\gym\mapper\UserMapper.java
 D:\我是超级大学生\数据库\Last\Gym (2)(1)\Gym (2)(1)\Gym\gym\src\main\java\com\gym\config\WebMvcConfig.java
@@ -42,3 +43,63 @@ D:\我是超级大学生\数据库\Last\Gym (2)(1)\Gym (2)(1)\Gym\gym\src\main\j
 D:\我是超级大学生\数据库\Last\Gym (2)(1)\Gym (2)(1)\Gym\gym\src\main\java\com\gym\service\NewsService.java
 D:\我是超级大学生\数据库\Last\Gym (2)(1)\Gym (2)(1)\Gym\gym\src\main\java\com\gym\config\MyMetaObjectHandler.java
 D:\我是超级大学生\数据库\Last\Gym (2)(1)\Gym (2)(1)\Gym\gym\src\main\java\com\gym\controller\AdminController.java
+=======
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\mapper\MotivationalQuoteMapper.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\PasswordGen.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\common\Result.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\entity\EntryLog.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\entity\UserCard.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\entity\Product.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\controller\AuthController.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\controller\TrainingController.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\mapper\SalesRecordMapper.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\service\CheckinService.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\config\MyMetaObjectHandler.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\entity\GymDaily.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\entity\MotivationalQuote.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\entity\MembershipCard.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\mapper\EntryLogMapper.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\mapper\ProductMapper.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\mapper\UserBodyInfoMapper.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\controller\GymEntryController.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\config\DataInitializer.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\entity\UserBodyInfo.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\mapper\UserMapper.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\mapper\FitnessTipMapper.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\service\UserService.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\controller\CoachController.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\mapper\GymTimeslotMapper.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\entity\User.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\service\TrainingService.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\controller\ProductController.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\controller\UploadController.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\entity\SalesRecord.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\service\ProductService.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\config\WebMvcConfig.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\service\GymDailyService.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\entity\News.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\controller\NewsController.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\service\CoachService.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\entity\DietPlan.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\mapper\GymDailyMapper.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\entity\Coach.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\controller\CardController.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\controller\AdminController.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\service\CardService.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\service\UserBodyInfoService.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\GymApplication.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\service\NewsService.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\entity\GymTimeslot.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\mapper\UserCheckinMapper.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\controller\CheckinController.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\mapper\NewsMapper.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\controller\UserBodyController.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\entity\UserCheckin.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\mapper\DietPlanMapper.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\mapper\CoachMapper.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\entity\FitnessTip.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\mapper\MembershipCardMapper.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\entity\TrainingPlan.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\mapper\UserCardMapper.java
+D:\我是超级大学生\数据库\新建文件夹 (3)\GYM\src\main\java\com\gym\mapper\TrainingPlanMapper.java
+>>>>>>> Stashed changes
