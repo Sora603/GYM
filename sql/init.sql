@@ -92,6 +92,7 @@ CREATE TABLE `gym_daily` (
     `total_in` INT DEFAULT 0 COMMENT '当日入场总数',
     `peak_count` INT DEFAULT 0 COMMENT '当日峰值人数',
     `total_revenue` DECIMAL(10,2) DEFAULT 0.00 COMMENT '当日销售额',
+    `gym_capacity` INT DEFAULT 80 COMMENT '场馆器械容量',
     `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     UNIQUE INDEX `idx_date` (`record_date`)
 ) COMMENT '每日客流记录';
@@ -169,8 +170,8 @@ INSERT INTO `product` (`name`, `price`, `stock`) VALUES
 ('运动毛巾', 29.00, 80);
 
 -- 今日客流初始
-INSERT INTO `gym_daily` (`record_date`, `current_count`, `total_in`, `peak_count`, `total_revenue`) VALUES
-(CURDATE(), 0, 0, 0, 0.00);
+INSERT INTO `gym_daily` (`record_date`, `current_count`, `total_in`, `peak_count`, `total_revenue`, `gym_capacity`) VALUES
+(CURDATE(), 0, 0, 0, 0.00, 80);
 
 -- 新闻
 INSERT INTO `news` (`title`, `content`, `admin_id`) VALUES
@@ -195,6 +196,7 @@ CREATE TABLE `training_plan` (
     `warm_up` VARCHAR(255) DEFAULT NULL COMMENT '热身建议',
     `cardio` VARCHAR(255) DEFAULT NULL COMMENT '有氧建议（减脂用）',
     `notes` VARCHAR(255) DEFAULT NULL COMMENT '当日注意事项',
+    `day_type` VARCHAR(10) DEFAULT 'STRENGTH' COMMENT '训练日类型: STRENGTH/CARDIO/REST',
     UNIQUE KEY `uk_goal_day` (`goal_type`, `day_of_week`)
 ) COMMENT '训练计划模板表';
 
@@ -234,24 +236,24 @@ CREATE TABLE `motivational_quote` (
 -- ============================================
 
 -- 增肌计划（BUILD）
-INSERT INTO `training_plan` (`goal_type`, `day_of_week`, `focus`, `exercises`, `warm_up`, `cardio`, `notes`) VALUES
-('BUILD', 1, '胸部+三头肌', '[{"name":"杠铃卧推","sets":"4","reps":"8-12","rest":"90s","note":"核心收紧，背部贴凳"},{"name":"上斜哑铃卧推","sets":"4","reps":"10-12","rest":"90s","note":"上胸发力，顶峰收缩"},{"name":"哑铃飞鸟","sets":"3","reps":"12-15","rest":"60s","note":"控制离心，拉伸胸肌"},{"name":"绳索下压","sets":"3","reps":"12-15","rest":"60s","note":"肘部锁定，三头孤立发力"},{"name":"双杠臂屈伸","sets":"3","reps":"力竭","rest":"90s","note":"身体前倾刺激下胸"}]', '肩关节环绕2min + 弹力带推胸激活3min', NULL, '增肌黄金日，大重量复合动作为主'),
-('BUILD', 2, '背部+二头肌', '[{"name":"引体向上","sets":"4","reps":"力竭","rest":"90s","note":"宽握，背部发力启动"},{"name":"杠铃划船","sets":"4","reps":"8-12","rest":"90s","note":"俯身45°，杠铃沿大腿上拉"},{"name":"高位下拉","sets":"3","reps":"10-12","rest":"60s","note":"沉肩，挤压背阔肌"},{"name":"单臂哑铃划船","sets":"3","reps":"10-12","rest":"60s","note":"每侧独立，拉伸与收缩并重"},{"name":"杠铃弯举","sets":"3","reps":"10-12","rest":"60s","note":"大臂固定，二头孤立发力"}]', '肩胛激活5min + 弹力带划船热身', NULL, '感受背阔肌的拉伸与收缩'),
-('BUILD', 3, '肩部+腹肌', '[{"name":"坐姿哑铃推举","sets":"4","reps":"8-12","rest":"90s","note":"核心收紧，全程控制"},{"name":"哑铃侧平举","sets":"4","reps":"12-15","rest":"60s","note":"轻重量，控制离心，不要借力"},{"name":"面拉","sets":"3","reps":"15","rest":"60s","note":"绳索拉向面部，刺激后束"},{"name":"卷腹","sets":"3","reps":"20","rest":"45s","note":"上背部离地即可，腰部贴地"},{"name":"悬垂举腿","sets":"3","reps":"15","rest":"60s","note":"控制摆动，腹肌发力"}]', '肩袖激活5min + 弹力带内外旋', NULL, '肩部是门面，侧平举质量大于重量'),
-('BUILD', 4, '腿部（股四头肌主导）', '[{"name":"杠铃深蹲","sets":"4","reps":"6-10","rest":"120s","note":"核心收紧，膝盖不内扣，大腿平行地面"},{"name":"腿举","sets":"4","reps":"10-12","rest":"90s","note":"控制深度，不要锁死膝盖"},{"name":"腿屈伸","sets":"3","reps":"12-15","rest":"60s","note":"顶峰收缩1秒，孤立股四头肌"},{"name":"坐姿提踵","sets":"4","reps":"15-20","rest":"60s","note":"全程拉伸与收缩小腿"}]', '髋关节环绕3min + 空蹲激活2min', NULL, '深蹲是增肌之王，动作质量第一'),
-('BUILD', 5, '全身复合+手臂强化', '[{"name":"罗马尼亚硬拉","sets":"4","reps":"8-10","rest":"90s","note":"屈髋主导，背平直，腘绳肌拉伸"},{"name":"上斜哑铃推举","sets":"3","reps":"10-12","rest":"60s","note":"复合推，肩胸协同"},{"name":"锤式弯举","sets":"3","reps":"10-12","rest":"60s","note":"肱肌+二头，握力训练"},{"name":"绳索下压","sets":"3","reps":"12-15","rest":"60s","note":"三头肌外侧头"},{"name":"臀推","sets":"4","reps":"10-12","rest":"90s","note":"顶峰夹紧臀部1-2秒"}]', '全身动态拉伸5min', NULL, '周五补齐本周薄弱部位'),
-('BUILD', 6, '主动恢复日', '[{"name":"泡沫轴放松","sets":"1","reps":"全身","rest":"-","note":"每个部位滚压30-60秒"},{"name":"静态拉伸","sets":"1","reps":"全身","rest":"-","note":"每个拉伸保持20-30秒"}]', NULL, NULL, '恢复是增肌的一部分，不要忽视'),
-('BUILD', 7, '休息日', '[{"name":"完全休息","sets":"-","reps":"-","rest":"-","note":"保证充足睡眠，蛋白质摄入不要断"}]', NULL, NULL, '肌肉在休息时生长，睡眠7-8小时');
+INSERT INTO `training_plan` (`goal_type`, `day_of_week`, `focus`, `exercises`, `warm_up`, `cardio`, `notes`, `day_type`) VALUES
+('BUILD', 1, '胸部+三头肌', '[{"name":"杠铃卧推","sets":"4","reps":"8-12","rest":"90s","note":"核心收紧，背部贴凳"},{"name":"上斜哑铃卧推","sets":"4","reps":"10-12","rest":"90s","note":"上胸发力，顶峰收缩"},{"name":"哑铃飞鸟","sets":"3","reps":"12-15","rest":"60s","note":"控制离心，拉伸胸肌"},{"name":"绳索下压","sets":"3","reps":"12-15","rest":"60s","note":"肘部锁定，三头孤立发力"},{"name":"双杠臂屈伸","sets":"3","reps":"力竭","rest":"90s","note":"身体前倾刺激下胸"}]', '肩关节环绕2min + 弹力带推胸激活3min', NULL, '增肌黄金日，大重量复合动作为主', 'STRENGTH'),
+('BUILD', 2, '背部+二头肌', '[{"name":"引体向上","sets":"4","reps":"力竭","rest":"90s","note":"宽握，背部发力启动"},{"name":"杠铃划船","sets":"4","reps":"8-12","rest":"90s","note":"俯身45°，杠铃沿大腿上拉"},{"name":"高位下拉","sets":"3","reps":"10-12","rest":"60s","note":"沉肩，挤压背阔肌"},{"name":"单臂哑铃划船","sets":"3","reps":"10-12","rest":"60s","note":"每侧独立，拉伸与收缩并重"},{"name":"杠铃弯举","sets":"3","reps":"10-12","rest":"60s","note":"大臂固定，二头孤立发力"}]', '肩胛激活5min + 弹力带划船热身', NULL, '感受背阔肌的拉伸与收缩', 'STRENGTH'),
+('BUILD', 3, '肩部+腹肌', '[{"name":"坐姿哑铃推举","sets":"4","reps":"8-12","rest":"90s","note":"核心收紧，全程控制"},{"name":"哑铃侧平举","sets":"4","reps":"12-15","rest":"60s","note":"轻重量，控制离心，不要借力"},{"name":"面拉","sets":"3","reps":"15","rest":"60s","note":"绳索拉向面部，刺激后束"},{"name":"卷腹","sets":"3","reps":"20","rest":"45s","note":"上背部离地即可，腰部贴地"},{"name":"悬垂举腿","sets":"3","reps":"15","rest":"60s","note":"控制摆动，腹肌发力"}]', '肩袖激活5min + 弹力带内外旋', NULL, '肩部是门面，侧平举质量大于重量', 'STRENGTH'),
+('BUILD', 4, '腿部（股四头肌主导）', '[{"name":"杠铃深蹲","sets":"4","reps":"6-10","rest":"120s","note":"核心收紧，膝盖不内扣，大腿平行地面"},{"name":"腿举","sets":"4","reps":"10-12","rest":"90s","note":"控制深度，不要锁死膝盖"},{"name":"腿屈伸","sets":"3","reps":"12-15","rest":"60s","note":"顶峰收缩1秒，孤立股四头肌"},{"name":"坐姿提踵","sets":"4","reps":"15-20","rest":"60s","note":"全程拉伸与收缩小腿"}]', '髋关节环绕3min + 空蹲激活2min', NULL, '深蹲是增肌之王，动作质量第一', 'STRENGTH'),
+('BUILD', 5, '全身复合+手臂强化', '[{"name":"罗马尼亚硬拉","sets":"4","reps":"8-10","rest":"90s","note":"屈髋主导，背平直，腘绳肌拉伸"},{"name":"上斜哑铃推举","sets":"3","reps":"10-12","rest":"60s","note":"复合推，肩胸协同"},{"name":"锤式弯举","sets":"3","reps":"10-12","rest":"60s","note":"肱肌+二头，握力训练"},{"name":"绳索下压","sets":"3","reps":"12-15","rest":"60s","note":"三头肌外侧头"},{"name":"臀推","sets":"4","reps":"10-12","rest":"90s","note":"顶峰夹紧臀部1-2秒"}]', '全身动态拉伸5min', NULL, '周五补齐本周薄弱部位', 'STRENGTH'),
+('BUILD', 6, '主动恢复日', '[{"name":"泡沫轴放松","sets":"1","reps":"全身","rest":"-","note":"每个部位滚压30-60秒"},{"name":"静态拉伸","sets":"1","reps":"全身","rest":"-","note":"每个拉伸保持20-30秒"}]', NULL, NULL, '恢复是增肌的一部分，不要忽视', 'REST'),
+('BUILD', 7, '休息日', '[{"name":"完全休息","sets":"-","reps":"-","rest":"-","note":"保证充足睡眠，蛋白质摄入不要断"}]', NULL, NULL, '肌肉在休息时生长，睡眠7-8小时', 'REST');
 
 -- 减脂计划（LOSE）
-INSERT INTO `training_plan` (`goal_type`, `day_of_week`, `focus`, `exercises`, `warm_up`, `cardio`, `notes`) VALUES
-('LOSE', 1, '下肢力量+有氧', '[{"name":"杠铃深蹲","sets":"3-4","reps":"10-12","rest":"60s","note":"中等重量，动作标准优先"},{"name":"罗马尼亚硬拉","sets":"3-4","reps":"10-12","rest":"60s","note":"控制离心，感受后链拉伸"},{"name":"箭步蹲","sets":"3","reps":"12-15/侧","rest":"60s","note":"核心收紧，膝盖稳定"},{"name":"臀桥","sets":"3","reps":"15","rest":"45s","note":"顶峰夹紧停留1秒"}]', '动态拉伸+高抬腿 5min', '跑步机坡度走20-30min（坡度10-12，速度4.5-5.0）', '先力量后有氧——糖原消耗后直接燃脂'),
-('LOSE', 2, '上肢推+有氧', '[{"name":"杠铃卧推","sets":"3-4","reps":"10-12","rest":"60s","note":"中等重量，控制节奏"},{"name":"哑铃肩推","sets":"3-4","reps":"10-12","rest":"60s","note":"核心收紧，全程稳定"},{"name":"上斜哑铃飞鸟","sets":"3","reps":"12-15","rest":"45s","note":"轻重量，感受拉伸"},{"name":"绳索下压","sets":"3","reps":"12-15","rest":"45s","note":"三头肌燃烧感"}]', '肩关节环绕 5min', '慢跑/动感单车 20-30min', '力量训练保持肌肉量，有氧加速燃脂'),
-('LOSE', 3, '纯有氧燃脂日', '[{"name":"跑步机坡度走","sets":"1","reps":"40-50min","rest":"-","note":"心率保持130-140，中等强度稳态"},{"name":"或HIIT跳绳","sets":"8","reps":"30s快+15s慢","rest":"循环","note":"高强度间歇，后燃效应强"}]', '5min 动态拉伸', NULL, '纯有氧日，给肌肉恢复时间，专注脂肪燃烧'),
-('LOSE', 4, '背部+二头+有氧', '[{"name":"高位下拉","sets":"3-4","reps":"10-12","rest":"60s","note":"沉肩，背阔肌发力"},{"name":"俯身哑铃划船","sets":"3-4","reps":"10-12","rest":"60s","note":"每侧独立，拉伸充分"},{"name":"坐姿绳索划船","sets":"3","reps":"12-15","rest":"45s","note":"挤压背部中央"},{"name":"哑铃弯举","sets":"3","reps":"12-15","rest":"45s","note":"控制离心3秒"}]', '肩胛激活 5min', '椭圆机 20min', '背部大肌群训练消耗可观热量'),
-('LOSE', 5, 'HIIT全身燃脂', '[{"name":"波比跳","sets":"4","reps":"30s","rest":"15s","note":"全力输出，不保留"},{"name":"开合跳","sets":"4","reps":"30s","rest":"15s","note":"节奏稳定"},{"name":"深蹲跳","sets":"4","reps":"30s","rest":"15s","note":"落地轻盈，保护膝盖"},{"name":"登山跑","sets":"4","reps":"30s","rest":"15s","note":"核心收紧，快速交替"},{"name":"高抬腿","sets":"4","reps":"30s","rest":"15s","note":"大腿抬至水平"}]', '全身动态拉伸 5min', NULL, 'HIIT总时长20-25min，后燃效应持续24h+'),
-('LOSE', 6, '可选轻度运动', '[{"name":"户外慢跑/游泳/骑行","sets":"1","reps":"40-60min","rest":"-","note":"低强度稳态有氧，享受运动"},{"name":"或瑜伽/拉伸课","sets":"1","reps":"45-60min","rest":"-","note":"提升柔韧性，促进恢复"}]', NULL, NULL, '根据身体状态灵活选择，不要勉强'),
-('LOSE', 7, '休息日', '[{"name":"完全休息","sets":"-","reps":"-","rest":"-","note":"保证睡眠7-8小时，多喝水帮助代谢"}]', NULL, NULL, '休息是为了更好的燃烧！睡眠不足会阻碍减脂');
+INSERT INTO `training_plan` (`goal_type`, `day_of_week`, `focus`, `exercises`, `warm_up`, `cardio`, `notes`, `day_type`) VALUES
+('LOSE', 1, '下肢力量+有氧', '[{"name":"杠铃深蹲","sets":"3-4","reps":"10-12","rest":"60s","note":"中等重量，动作标准优先"},{"name":"罗马尼亚硬拉","sets":"3-4","reps":"10-12","rest":"60s","note":"控制离心，感受后链拉伸"},{"name":"箭步蹲","sets":"3","reps":"12-15/侧","rest":"60s","note":"核心收紧，膝盖稳定"},{"name":"臀桥","sets":"3","reps":"15","rest":"45s","note":"顶峰夹紧停留1秒"}]', '动态拉伸+高抬腿 5min', '跑步机坡度走20-30min（坡度10-12，速度4.5-5.0）', '先力量后有氧——糖原消耗后直接燃脂', 'STRENGTH'),
+('LOSE', 2, '上肢推+有氧', '[{"name":"杠铃卧推","sets":"3-4","reps":"10-12","rest":"60s","note":"中等重量，控制节奏"},{"name":"哑铃肩推","sets":"3-4","reps":"10-12","rest":"60s","note":"核心收紧，全程稳定"},{"name":"上斜哑铃飞鸟","sets":"3","reps":"12-15","rest":"45s","note":"轻重量，感受拉伸"},{"name":"绳索下压","sets":"3","reps":"12-15","rest":"45s","note":"三头肌燃烧感"}]', '肩关节环绕 5min', '慢跑/动感单车 20-30min', '力量训练保持肌肉量，有氧加速燃脂', 'STRENGTH'),
+('LOSE', 3, '纯有氧燃脂日', '[{"name":"跑步机坡度走","sets":"1","reps":"40-50min","rest":"-","note":"心率保持130-140，中等强度稳态"},{"name":"或HIIT跳绳","sets":"8","reps":"30s快+15s慢","rest":"循环","note":"高强度间歇，后燃效应强"}]', '5min 动态拉伸', NULL, '纯有氧日，给肌肉恢复时间，专注脂肪燃烧', 'CARDIO'),
+('LOSE', 4, '背部+二头+有氧', '[{"name":"高位下拉","sets":"3-4","reps":"10-12","rest":"60s","note":"沉肩，背阔肌发力"},{"name":"俯身哑铃划船","sets":"3-4","reps":"10-12","rest":"60s","note":"每侧独立，拉伸充分"},{"name":"坐姿绳索划船","sets":"3","reps":"12-15","rest":"45s","note":"挤压背部中央"},{"name":"哑铃弯举","sets":"3","reps":"12-15","rest":"45s","note":"控制离心3秒"}]', '肩胛激活 5min', '椭圆机 20min', '背部大肌群训练消耗可观热量', 'STRENGTH'),
+('LOSE', 5, 'HIIT全身燃脂', '[{"name":"波比跳","sets":"4","reps":"30s","rest":"15s","note":"全力输出，不保留"},{"name":"开合跳","sets":"4","reps":"30s","rest":"15s","note":"节奏稳定"},{"name":"深蹲跳","sets":"4","reps":"30s","rest":"15s","note":"落地轻盈，保护膝盖"},{"name":"登山跑","sets":"4","reps":"30s","rest":"15s","note":"核心收紧，快速交替"},{"name":"高抬腿","sets":"4","reps":"30s","rest":"15s","note":"大腿抬至水平"}]', '全身动态拉伸 5min', NULL, 'HIIT总时长20-25min，后燃效应持续24h+', 'CARDIO'),
+('LOSE', 6, '可选轻度运动', '[{"name":"户外慢跑/游泳/骑行","sets":"1","reps":"40-60min","rest":"-","note":"低强度稳态有氧，享受运动"},{"name":"或瑜伽/拉伸课","sets":"1","reps":"45-60min","rest":"-","note":"提升柔韧性，促进恢复"}]', NULL, NULL, '根据身体状态灵活选择，不要勉强', 'REST'),
+('LOSE', 7, '休息日', '[{"name":"完全休息","sets":"-","reps":"-","rest":"-","note":"保证睡眠7-8小时，多喝水帮助代谢"}]', NULL, NULL, '休息是为了更好的燃烧！睡眠不足会阻碍减脂', 'REST');
 
 -- ============================================
 -- 饮食推荐种子数据
@@ -306,3 +308,110 @@ INSERT INTO `motivational_quote` (`content`, `author`) VALUES
 ('自律给我自由。', '佚名'),
 ('每一次想放弃的瞬间，都是你突破极限的机会。', '佚名'),
 ('昨天的你，是今天的你的底线。', '佚名');
+
+-- ============================================
+-- 15. 用户自定义训练表
+-- ============================================
+DROP TABLE IF EXISTS `user_custom_training`;
+CREATE TABLE `user_custom_training` (
+    `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
+    `user_id` BIGINT NOT NULL,
+    `day_of_week` INT NOT NULL COMMENT '1-7 周一至周日',
+    `focus` VARCHAR(100) DEFAULT '' COMMENT '训练重点',
+    `day_type` VARCHAR(10) DEFAULT 'STRENGTH' COMMENT 'STRENGTH/CARDIO/REST',
+    `exercises` TEXT COMMENT 'JSON训练动作',
+    `warm_up` VARCHAR(255) DEFAULT NULL,
+    `cardio` VARCHAR(255) DEFAULT NULL,
+    `notes` VARCHAR(255) DEFAULT NULL,
+    UNIQUE KEY `uk_custom_user_day` (`user_id`, `day_of_week`)
+) COMMENT '用户自定义训练计划';
+
+-- ============================================
+-- 16. 用户自定义饮食表
+-- ============================================
+DROP TABLE IF EXISTS `user_custom_diet`;
+CREATE TABLE `user_custom_diet` (
+    `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
+    `user_id` BIGINT NOT NULL,
+    `day_of_week` INT NOT NULL COMMENT '1-7',
+    `meal_type` VARCHAR(10) NOT NULL COMMENT 'BREAKFAST/LUNCH/SNACK/DINNER/BEDTIME',
+    `content` TEXT COMMENT '食物描述',
+    `calories_guide` VARCHAR(50) DEFAULT NULL,
+    `macro_ratio` VARCHAR(20) DEFAULT NULL COMMENT '蛋白质/碳水/脂肪比例',
+    `food_items` TEXT COMMENT 'JSON食物列表',
+    UNIQUE KEY `uk_custom_diet_user_day_meal` (`user_id`, `day_of_week`, `meal_type`)
+) COMMENT '用户自定义饮食计划';
+
+-- ============================================
+-- 17. 食物库表
+-- ============================================
+DROP TABLE IF EXISTS `food_library`;
+CREATE TABLE `food_library` (
+    `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
+    `category` VARCHAR(20) NOT NULL COMMENT '蛋白质/主食/蔬菜/水果/坚果/饮品/其他',
+    `name` VARCHAR(50) NOT NULL,
+    `unit` VARCHAR(20) DEFAULT '100g' COMMENT '计量单位',
+    `kcal_per_unit` INT NOT NULL COMMENT '每单位热量(kcal)',
+    `protein_g` DECIMAL(5,1) DEFAULT 0 COMMENT '蛋白质(g)',
+    `carbs_g` DECIMAL(5,1) DEFAULT 0 COMMENT '碳水(g)',
+    `fat_g` DECIMAL(5,1) DEFAULT 0 COMMENT '脂肪(g)',
+    `emoji` VARCHAR(5) DEFAULT '🍽️'
+) COMMENT '常见食物营养库';
+
+-- 食物库种子数据
+INSERT INTO `food_library` (`category`, `name`, `unit`, `kcal_per_unit`, `protein_g`, `carbs_g`, `fat_g`, `emoji`) VALUES
+-- 蛋白质类
+('蛋白质', '鸡胸肉', '100g', 133, 31.0, 0.0, 1.2, '🍗'),
+('蛋白质', '鸡腿肉(去皮)', '100g', 153, 26.0, 0.0, 5.0, '🍗'),
+('蛋白质', '瘦牛肉', '100g', 150, 28.0, 0.0, 4.0, '🥩'),
+('蛋白质', '牛腱子', '100g', 128, 28.0, 0.0, 1.8, '🥩'),
+('蛋白质', '猪里脊', '100g', 140, 30.0, 0.0, 3.0, '🥩'),
+('蛋白质', '三文鱼', '100g', 208, 20.0, 0.0, 13.0, '🐟'),
+('蛋白质', '鳕鱼', '100g', 82, 18.0, 0.0, 0.7, '🐟'),
+('蛋白质', '虾仁', '100g', 99, 24.0, 0.0, 0.8, '🦐'),
+('蛋白质', '鸡蛋(整)', '1个(50g)', 72, 6.5, 0.5, 5.0, '🥚'),
+('蛋白质', '鸡蛋白', '1个', 17, 3.6, 0.2, 0.0, '🥚'),
+('蛋白质', '豆腐(北)', '100g', 116, 12.0, 3.0, 6.0, '🧈'),
+('蛋白质', '豆腐(南)', '100g', 57, 5.0, 2.0, 3.0, '🧈'),
+('蛋白质', '牛奶(全脂)', '200ml', 130, 6.4, 9.6, 7.2, '🥛'),
+('蛋白质', '牛奶(脱脂)', '200ml', 72, 7.0, 10.0, 0.2, '🥛'),
+('蛋白质', '希腊酸奶', '150g', 145, 15.0, 6.0, 6.0, '🥛'),
+('蛋白质', '乳清蛋白粉', '1勺(30g)', 120, 24.0, 2.0, 1.0, '🥛'),
+('蛋白质', '金枪鱼罐头', '100g', 128, 29.0, 0.0, 1.0, '🐟'),
+-- 主食类
+('主食', '米饭(熟)', '100g', 116, 2.6, 25.9, 0.3, '🍚'),
+('主食', '糙米饭(熟)', '100g', 123, 2.7, 25.6, 1.0, '🍚'),
+('主食', '全麦面包', '1片', 69, 3.5, 12.0, 1.0, '🍞'),
+('主食', '白面包', '1片', 75, 2.5, 14.0, 1.0, '🍞'),
+('主食', '燕麦片(干)', '40g', 150, 5.4, 26.0, 2.8, '🥣'),
+('主食', '红薯', '200g', 172, 2.6, 40.0, 0.4, '🍠'),
+('主食', '土豆', '200g', 152, 4.0, 34.0, 0.4, '🥔'),
+('主食', '玉米', '1根(200g)', 140, 5.0, 30.0, 2.0, '🌽'),
+('主食', '意大利面(熟)', '100g', 131, 5.0, 25.0, 1.1, '🍝'),
+('主食', '馒头', '1个(100g)', 223, 7.0, 44.0, 1.1, '🫓'),
+('主食', '南瓜', '200g', 52, 2.0, 12.0, 0.2, '🎃'),
+-- 蔬菜类
+('蔬菜', '西兰花', '200g', 68, 5.6, 12.0, 0.8, '🥦'),
+('蔬菜', '菠菜', '200g', 46, 5.2, 6.0, 0.6, '🥬'),
+('蔬菜', '黄瓜', '1根(200g)', 30, 1.6, 5.0, 0.4, '🥒'),
+('蔬菜', '番茄', '1个(150g)', 27, 1.3, 5.0, 0.3, '🍅'),
+('蔬菜', '彩椒', '1个(150g)', 30, 1.5, 6.0, 0.3, '🫑'),
+('蔬菜', '芦笋', '200g', 40, 4.4, 7.0, 0.2, '🌿'),
+('蔬菜', '生菜', '200g', 24, 2.0, 3.0, 0.4, '🥬'),
+('蔬菜', '胡萝卜', '100g', 37, 1.0, 8.8, 0.2, '🥕'),
+('蔬菜', '木耳(干)', '20g', 54, 2.4, 12.0, 0.2, '🫘'),
+-- 水果类
+('水果', '香蕉', '1根(120g)', 105, 1.4, 27.0, 0.4, '🍌'),
+('水果', '苹果', '1个(200g)', 104, 0.5, 27.6, 0.3, '🍎'),
+('水果', '蓝莓', '100g', 57, 0.7, 14.5, 0.3, '🫐'),
+('水果', '牛油果', '半个(70g)', 112, 1.4, 6.0, 10.5, '🥑'),
+('水果', '橙子', '1个(200g)', 94, 1.8, 23.0, 0.2, '🍊'),
+-- 坚果类
+('坚果', '核桃', '15g', 98, 2.3, 1.5, 9.8, '🥜'),
+('坚果', '杏仁', '15g', 86, 3.2, 3.0, 7.5, '🥜'),
+('坚果', '花生', '20g', 113, 5.0, 3.0, 9.6, '🥜'),
+-- 脂肪/调味
+('脂肪', '橄榄油', '10ml', 90, 0.0, 0.0, 10.0, '🫒'),
+('脂肪', '花生酱', '15g', 94, 4.0, 3.0, 8.0, '🥜'),
+('脂肪', '低脂花生酱', '15g', 70, 4.0, 5.0, 4.0, '🥜');
+

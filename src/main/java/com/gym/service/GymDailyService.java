@@ -53,6 +53,7 @@ public class GymDailyService {
             record.setTotalIn(0);
             record.setPeakCount(0);
             record.setTotalRevenue(BigDecimal.ZERO);
+            record.setGymCapacity(80);
             gymDailyMapper.insert(record);
         }
         return record;

@@ -534,6 +534,8 @@
 
   .stat-icon-orange { background: rgba(37,99,235,0.08); color: var(--brand); }
   .stat-icon-blue { background: var(--blue-bg); color: var(--blue); }
+  .stat-icon-green { background: var(--green-bg); color: #059669; }
+  .stat-icon-teal { background: rgba(20,184,166,0.08); color: #0D9488; }
 
   .stat-box .stat-num {
     font-size: 48px;
@@ -1016,6 +1018,7 @@
 
   /* 休息日样式 */
   .tp-week-dot.rest-day .tp-dot-ring { background: #F1F5F9; color: var(--text-muted); }
+  .tp-week-dot.no-plan .tp-dot-ring { background: #FAFAFA; color: #CBD5E1; border-color: #E5E7EB; }
   .tp-week-dot.rest-day.today .tp-dot-ring { background: #F1F5F9; color: var(--text-muted); border-color: #CBD5E1; box-shadow: 0 0 0 6px rgba(148,163,184,0.06); }
 
   /* 日类型小横条 */
@@ -1248,6 +1251,155 @@
   .tp-body-svg .muscle { fill: #E2E8F0; transition: fill 0.5s ease; }
   .tp-body-svg .muscle.hot { fill: #3B82F6; animation: musclePulse 1.5s ease-in-out infinite; }
   @keyframes musclePulse { 0%,100%{fill:#3B82F6} 50%{fill:#60A5FA} }
+
+  /* ===== 自定义计划 ===== */
+  .tp-toggle-btn.custom { color: #7C3AED; }
+  .tp-toggle-btn.active.custom { background: #FFFFFF; color: #7C3AED; box-shadow: 0 2px 8px rgba(124,58,237,0.15); }
+
+  /* 自定义编辑器操作按钮 */
+  .cp-btn-sm {
+    padding: 6px 14px; border-radius: 8px; border: 1px solid var(--border);
+    background: var(--surface); color: var(--text-secondary); font-size: 11px;
+    font-weight: 600; cursor: pointer; font-family: var(--font);
+    transition: all 0.3s var(--ease-spring);
+  }
+  .cp-btn-sm:hover { background: var(--sidebar-hover); color: var(--text); }
+  .cp-btn-sm.ghost:hover { border-color: var(--brand); color: var(--brand); background: var(--blue-bg); }
+  .cp-btn-sm.danger:hover { border-color: var(--danger); color: var(--danger); background: var(--danger-bg); }
+
+  .cp-btn-save {
+    padding: 7px 20px; border-radius: 10px; border: none;
+    background: #7C3AED; color: #FFF; font-size: 13px; font-weight: 600;
+    cursor: pointer; font-family: var(--font);
+    transition: all 0.4s var(--ease-spring);
+    box-shadow: 0 2px 8px rgba(124,58,237,0.2);
+  }
+  .cp-btn-save:hover { background: #6D28D9; box-shadow: 0 4px 16px rgba(124,58,237,0.3); transform: translateY(-1px); }
+  .cp-btn-save:active { transform: scale(0.95); transition: all 0.1s var(--ease-out-expo); }
+  .cp-btn-save.saved { background: var(--green); box-shadow: 0 2px 8px rgba(16,185,129,0.2); }
+
+  /* 表单 */
+  .cp-form { display: flex; flex-direction: column; gap: 12px; }
+  .cp-f-row { display: flex; flex-direction: column; gap: 4px; }
+  .cp-label { font-size: 12px; font-weight: 600; color: var(--text-secondary); }
+  .cp-input {
+    width: 100%; padding: 9px 12px; border: 1px solid var(--border); border-radius: 8px;
+    background: var(--bg); color: var(--text); font-size: 13px; font-family: var(--font);
+    transition: all 0.3s; box-sizing: border-box;
+  }
+  .cp-input:focus { outline: none; border-color: #7C3AED; box-shadow: 0 0 0 3px rgba(124,58,237,0.08); }
+
+  /* 动作列表 */
+  .cp-ex-list { display: flex; flex-direction: column; gap: 6px; }
+  .cp-ex-item {
+    display: flex; align-items: center; gap: 6px; padding: 10px 12px;
+    background: var(--bg); border-radius: 8px; border: 1px solid var(--border-light);
+    transition: all 0.3s;
+  }
+  .cp-ex-item:hover { border-color: rgba(124,58,237,0.2); background: #FAFAFE; }
+  .cp-ex-item input {
+    border: none; background: transparent; font-size: 12px; font-family: var(--font);
+    color: var(--text); padding: 2px 4px; outline: none; width: 100%;
+  }
+  .cp-ex-item input:focus { background: rgba(124,58,237,0.04); border-radius: 4px; }
+  .cp-ex-item .ex-name { flex: 2; font-weight: 600; color: #7C3AED; }
+  .cp-ex-item .ex-small { flex: 1; text-align: center; color: var(--text-secondary); }
+  .cp-ex-item .ex-smallest { flex: 0.7; text-align: center; color: var(--text-muted); }
+  .cp-ex-remove {
+    width: 22px; height: 22px; border-radius: 50%; border: none; background: #FEE2E2;
+    color: #DC2626; cursor: pointer; font-size: 14px; display: flex; align-items: center;
+    justify-content: center; transition: all 0.3s; flex-shrink: 0; line-height: 1;
+  }
+  .cp-ex-remove:hover { background: #FECACA; }
+
+  .cp-btn-add {
+    padding: 8px 16px; border-radius: 8px; border: 2px dashed var(--border);
+    background: transparent; color: #7C3AED; font-size: 12px; font-weight: 600;
+    cursor: pointer; font-family: var(--font); transition: all 0.3s var(--ease-spring);
+  }
+  .cp-btn-add:hover { border-color: #7C3AED; background: rgba(124,58,237,0.04); }
+
+  /* 饮食编辑 */
+  .cp-diet-meal {
+    background: var(--bg); border-radius: 10px; padding: 14px; margin-bottom: 10px;
+    border: 1px solid var(--border-light);
+  }
+  .cp-diet-meal-hd {
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 8px;
+  }
+  .cp-meal-kcal { font-size: 11px; font-weight: 500; color: #7C3AED; }
+  .cp-food-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+  .cp-food-chip {
+    display: inline-flex; align-items: center; gap: 3px;
+    padding: 4px 10px; background: #F5F3FF; border-radius: 16px;
+    font-size: 11px; color: #5B21B6; border: 1px solid #EDE9FE;
+  }
+  .cp-food-chip .chip-x {
+    cursor: pointer; font-size: 12px; opacity: 0.5; margin-left: 2px;
+    transition: all 0.2s;
+  }
+  .cp-food-chip .chip-x:hover { opacity: 1; color: #DC2626; }
+  .cp-add-food-btn {
+    padding: 4px 12px; border-radius: 16px; border: 1px dashed #C4B5FD;
+    background: transparent; color: #7C3AED; font-size: 11px; cursor: pointer;
+    font-family: var(--font); transition: all 0.3s;
+  }
+  .cp-add-food-btn:hover { background: #F5F3FF; border-style: solid; }
+
+  .cp-macro-bar-row { display: flex; gap: 4px; height: 6px; border-radius: 3px; overflow: hidden; margin-top: 6px; }
+  .cp-macro-bar-row .p { background: #3B82F6; }
+  .cp-macro-bar-row .c { background: #F59E0B; }
+  .cp-macro-bar-row .f { background: #10B981; }
+
+  /* 食物选择器弹窗 */
+  .food-picker-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px);
+    z-index: 360; display: none; align-items: center; justify-content: center;
+  }
+  .food-picker-overlay.show { display: flex; animation: fadeIn 0.2s ease; }
+  .food-picker-modal {
+    background: var(--surface); border-radius: 14px; padding: 20px;
+    max-width: 520px; width: 92%; max-height: 80vh; overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    animation: scaleIn 0.25s cubic-bezier(0.16,1,0.3,1);
+  }
+  .food-picker-hd { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .food-picker-close {
+    width: 30px; height: 30px; border-radius: 50%; border: none; background: transparent;
+    color: var(--text-muted); cursor: pointer; font-size: 16px; transition: all 0.3s;
+  }
+  .food-picker-close:hover { background: var(--sidebar-hover); color: var(--text); }
+  .food-picker-search { margin-bottom: 10px; }
+  .food-cat-tabs { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 10px; }
+  .food-cat-tab {
+    padding: 5px 12px; border-radius: 16px; border: none; background: var(--sidebar-hover);
+    color: var(--text-secondary); font-size: 11px; font-weight: 600; cursor: pointer;
+    font-family: var(--font); transition: all 0.3s;
+  }
+  .food-cat-tab.active { background: #7C3AED; color: #FFF; }
+  .food-picker-list { display: flex; flex-direction: column; gap: 4px; max-height: 320px; overflow-y: auto; }
+  .food-picker-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 14px; border-radius: 8px; cursor: pointer;
+    transition: all 0.2s; border: 1px solid transparent;
+  }
+  .food-picker-item:hover { background: #F5F3FF; border-color: #EDE9FE; }
+  .food-picker-item.selected { background: #F5F3FF; border-color: #C4B5FD; }
+  .food-picker-item .fp-name { font-size: 13px; font-weight: 600; color: var(--text); }
+  .food-picker-item .fp-info { font-size: 11px; color: var(--text-muted); }
+  .food-picker-item .fp-kcal { font-size: 13px; font-weight: 700; color: #7C3AED; }
+
+  /* 保存提示 */
+  .cp-toast {
+    position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%) translateY(120px);
+    background: linear-gradient(135deg, #1E293B, #334155); color: #FFF;
+    padding: 12px 24px; border-radius: 12px; font-size: 14px; font-weight: 600;
+    z-index: 400; opacity: 0; transition: all 0.6s var(--ease-spring);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+    pointer-events: none;
+  }
+  .cp-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
   .tp-check-row { display: flex; align-items: center; gap: 10px; padding: 12px 16px; background: #FAFAFA; border-radius: 10px; transition: all 0.3s; margin-bottom: 4px; cursor: pointer; }
   .tp-check-row:hover { background: #F0F9FF; }
@@ -1953,6 +2105,18 @@
           <div class="stat-num" id="gymTotalIn">-</div>
           <div class="stat-label">今日入场总数</div>
         </div>
+        <div class="stat-box">
+          <div class="stat-icon stat-icon-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+          <div class="stat-num" id="gymOccupyRate">-</div>
+          <div class="stat-label">器械占用率</div>
+          <div class="stat-sub" id="gymOccupyLevel"></div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-icon stat-icon-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
+          <div class="stat-num" id="gymFreeEquip">-</div>
+          <div class="stat-label">空闲器械</div>
+          <div class="stat-sub" id="gymFreeLabel"></div>
+        </div>
       </div>
       <!-- 每日峰值折线图 -->
       <div class="card" style="margin-top:24px;">
@@ -1974,7 +2138,7 @@
       </div>
       <div id="newsList"></div>
     </div>
-n    <!-- 每日资讯 -->
+    <!-- 每日资讯 -->
     <div id="page-daily-news" class="page">
       <div class="page-header">
         <div class="page-title">每日资讯</div>
@@ -2075,6 +2239,7 @@ n    <!-- 每日资讯 -->
         <div class="tp-goal-toggle" id="tpGoalToggle">
           <button class="tp-toggle-btn active build" onclick="tpSelectGoal('BUILD')" id="tpBtnBuild">💪 增肌计划</button>
           <button class="tp-toggle-btn lose" onclick="tpSelectGoal('LOSE')" id="tpBtnLose">🔥 减脂计划</button>
+          <button class="tp-toggle-btn custom" onclick="tpSelectGoal('CUSTOM')" id="tpBtnCustom">✏️ 自定义计划</button>
         </div>
         <span style="font-size:12px;color:var(--text-muted);" id="tpCurrDayLabel"></span>
       </div>
@@ -2087,10 +2252,65 @@ n    <!-- 每日资讯 -->
       <!-- 周视图条 -->
       <div class="tp-week-strip" id="tpWeekStrip"></div>
 
+      <!-- 自定义计划编辑器 -->
+      <div id="tpCustomEditor" style="display:none;">
+        <!-- 操作栏 -->
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px;flex-wrap:wrap;">
+          <div style="font-size:14px;font-weight:700;color:var(--text);">✏️ <span id="tpCustomDayLabel">编辑训练与饮食</span></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="cp-btn-sm ghost" onclick="tpCustomViewPlan()" title="查看计划视图">👁️ 查看计划</button>
+            <button class="cp-btn-sm ghost" onclick="tpCustomReset('BUILD')">📋 模板复制</button>
+            <button class="cp-btn-sm ghost danger" onclick="tpCustomClearAll()">⚠️ 一键清空</button>
+            <button class="cp-btn-save" onclick="tpCustomSave()" id="tpCustomSaveBtn">💾 保存</button>
+          </div>
+        </div>
+
+        <!-- 双栏：训练编辑 + 饮食编辑 -->
+        <div class="ci-two-col" style="align-items:flex-start;">
+          <!-- 左列：训练编辑 -->
+          <div class="ci-card">
+            <div class="ci-card-title">🏋️ 训练计划</div>
+            <div class="cp-form">
+              <div class="cp-f-row">
+                <label class="cp-label">训练重点 <span style="color:var(--text-muted);font-weight:400;">（根据动作自动生成）</span></label>
+                <input class="cp-input" id="cpFocus" readonly style="background:#F5F3FF;color:#7C3AED;font-weight:600;" placeholder="选择动作后自动生成">
+              </div>
+              <div class="cp-f-row">
+                <label class="cp-label">日类型</label>
+                <select class="cp-input" id="cpDayType" onchange="tpCustomDayTypeChange()">
+                  <option value="STRENGTH">力量训练日</option>
+                  <option value="CARDIO">有氧燃脂日</option>
+                  <option value="REST">休息恢复日</option>
+                </select>
+              </div>
+              <div class="cp-f-row" id="cpStrengthFields">
+                <label class="cp-label">热身动作</label>
+                <div id="cpWarmUpChips" style="display:flex;flex-wrap:wrap;gap:6px;min-height:36px;padding:8px;background:var(--bg);border:1px solid var(--border);border-radius:8px;"></div>
+                <button class="cp-btn-add" onclick="openWarmUpPicker()" style="margin-top:4px;">+ 添加热身动作</button>
+              </div>
+              <div class="cp-f-row" id="cpExSection">
+                <label class="cp-label">训练动作</label>
+                <div id="cpExList" class="cp-ex-list"></div>
+                <button class="cp-btn-add" onclick="openExPicker()">+ 从动作库添加动作</button>
+                <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">总消耗 ≈ <span id="cpTotalKcal" style="color:#7C3AED;font-weight:700;">0</span> kcal</div>
+                <div id="cpAutoNotes" style="margin-top:8px;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 右列：饮食编辑 -->
+          <div class="ci-card">
+            <div class="ci-card-title">🍽️ 饮食计划 <span style="font-size:11px;color:var(--text-muted);font-weight:400;" id="cpDietTotalKcal"></span></div>
+            <div id="cpDietEditor"></div>
+          </div>
+        </div>
+      </div>
+
       <!-- 训练量统计条 -->
       <div class="tp-volume-strip" id="tpVolumeStrip" style="display:none;"></div>
 
       <!-- 双栏：肌肉图 + 今日训练 -->
+      <div id="tpEmptyPlanMsg" style="display:none;text-align:center;padding:60px 20px;"><div style="font-size:48px;margin-bottom:16px;">📋</div><p style="font-size:15px;color:var(--text);font-weight:600;">当日暂无计划</p><p style="font-size:12px;color:var(--text-muted);margin-top:8px;">点击上方按钮开始编辑</p></div>
       <div id="tpMainArea" style="display:none;">
         <div class="ci-two-col" style="align-items:flex-start;">
           <!-- 左列：肌肉人体图 + 部位分布 -->
@@ -2142,6 +2362,18 @@ n    <!-- 每日资讯 -->
         <p style="font-size:15px;margin-top:12px;">选择上方训练目标，获取专属计划</p>
         <p style="font-size:12px;color:var(--text-muted);">增肌 = 热量盈余 + 大重量五分化训练</p>
         <p style="font-size:12px;color:var(--text-muted);">减脂 = 热量缺口 + 力量有氧结合 + HIIT</p>
+      </div>
+
+      <!-- 空状态-自定义 -->
+      <div id="tpEmptyCustom" class="empty-state" style="display:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:56px;height:56px;opacity:0.2;"><path d="M12 5v14M5 12h14"/><path d="M9 9l6 6M15 9l-6 6"/></svg>
+        <p style="font-size:15px;margin-top:12px;">创建你的专属训练计划</p>
+        <p style="font-size:12px;color:var(--text-muted);margin-bottom:16px;">点击上方按钮开始编辑，或从模板复制</p>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+          <button class="btn-buy" onclick="tpCustomStartBlank()" style="width:auto;padding:8px 20px;background:#7C3AED;">✏️ 从空白开始</button>
+          <button class="btn-buy" onclick="tpCustomReset('BUILD')" style="width:auto;padding:8px 20px;">📋 从增肌模板复制</button>
+          <button class="btn-buy" onclick="tpCustomReset('LOSE')" style="width:auto;padding:8px 20px;background:#F97316;">📋 从减脂模板复制</button>
+        </div>
       </div>
     </div>
 
@@ -2250,6 +2482,43 @@ n    <!-- 每日资讯 -->
   <div class="tp-ex-modal" id="exModalContent"></div>
 </div>
 
+<!-- 食物选择器弹窗 -->
+<div class="food-picker-overlay" id="foodPickerOverlay" onclick="closeFoodPicker(event)">
+  <div class="food-picker-modal" onclick="event.stopPropagation()">
+    <div class="food-picker-hd">
+      <span style="font-weight:700;">🍽️ 选择食物</span>
+      <button class="food-picker-close" onclick="closeFoodPicker()">✕</button>
+    </div>
+    <div class="food-picker-search">
+      <input class="cp-input" id="foodSearchInput" placeholder="🔍 搜索食物..." oninput="filterFoods()">
+    </div>
+    <div class="food-cat-tabs" id="foodCatTabs"></div>
+    <div class="food-picker-list" id="foodPickerList"></div>
+    <div id="foodQtyInput" style="display:none;padding:12px;border-top:1px solid var(--border-light);margin-top:8px;">
+      <label class="cp-label" style="margin-bottom:6px;">输入克数/数量（基准：<span id="foodBaseInfo"></span>）</label>
+      <div style="display:flex;gap:8px;">
+        <input class="cp-input" id="foodQtyVal" type="number" placeholder="克数" style="flex:1;">
+        <button class="cp-btn-save" onclick="tpCustomConfirmFood()" style="width:auto;padding:8px 16px;">确认添加</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 动作选择器弹窗 -->
+<div class="food-picker-overlay" id="exPickerOverlay" onclick="closeExPicker(event)">
+  <div class="food-picker-modal" onclick="event.stopPropagation()">
+    <div class="food-picker-hd">
+      <span style="font-weight:700;">🏋️ 选择训练动作</span>
+      <button class="food-picker-close" onclick="closeExPicker()">✕</button>
+    </div>
+    <div class="food-picker-search">
+      <input class="cp-input" id="exSearchInput" placeholder="🔍 搜索动作..." oninput="filterExercises()">
+    </div>
+    <div class="food-cat-tabs" id="exCatTabs"></div>
+    <div class="food-picker-list" id="exPickerList"></div>
+  </div>
+</div>
+
 <!-- 撒花画布 -->
 <canvas id="confettiCanvas"></canvas>
 
@@ -2343,8 +2612,10 @@ async function loadTrainingPage() {
     var res = await fetch(API + '/api/training/goal');
     var data = await res.json();
     if (data.code === 200 && data.data) {
-      tpCurrentGoal = data.data;
-      tpLoadPlan(tpCurrentGoal);
+      var lastTab = localStorage.getItem("tp_last_tab") || data.data;
+      tpCurrentGoal = lastTab === "CUSTOM" ? "CUSTOM" : data.data;
+      if (tpCurrentGoal === "CUSTOM") { tpSelectGoal("CUSTOM"); return; }
+      tpLoadToken++; tpLoadPlan(tpCurrentGoal, tpLoadToken);
     } else {
       document.getElementById('tpEmpty').style.display = '';
       document.getElementById('tpDetailCard').style.display = 'none';
@@ -2441,12 +2712,31 @@ async function loadGymStatus() {
     const data = await res.json();
     if (data.code === 200) {
       const cnt = data.data.currentCount;
+      const capacity = data.data.gymCapacity || 80;
+      const occupyRate = Math.round((cnt / capacity) * 100);
+      const freeEquip = Math.max(capacity - cnt, 0);
+
       document.getElementById('gymCount').textContent = cnt;
       document.getElementById('gymTotalIn').textContent = data.data.totalIn;
+
       const lv = document.getElementById('gymLevel');
       if (cnt < 20) { lv.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> 空闲 · 快来锻炼'; lv.className = 'stat-sub good'; }
       else if (cnt < 50) { lv.innerHTML = '适中'; lv.className = 'stat-sub warn'; }
       else { lv.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="10.29 3.86 1.82 18 20.35 18 10.29 3.86"/></svg> 拥挤 · 建议错峰'; lv.className = 'stat-sub busy'; }
+
+      // 器械占用率
+      document.getElementById('gymOccupyRate').textContent = occupyRate + '%';
+      const ol = document.getElementById('gymOccupyLevel');
+      if (occupyRate < 30) { ol.innerHTML = '器械充足'; ol.className = 'stat-sub good'; }
+      else if (occupyRate < 60) { ol.innerHTML = '正常使用'; ol.className = 'stat-sub warn'; }
+      else { ol.innerHTML = '高峰时段'; ol.className = 'stat-sub busy'; }
+
+      // 空闲器械
+      document.getElementById('gymFreeEquip').textContent = freeEquip + '台';
+      const fl = document.getElementById('gymFreeLabel');
+      if (freeEquip > 50) { fl.innerHTML = '充足 · 随心练'; fl.className = 'stat-sub good'; }
+      else if (freeEquip > 20) { fl.innerHTML = '适中 · 推荐来'; fl.className = 'stat-sub warn'; }
+      else { fl.innerHTML = '紧张 · 建议错峰'; fl.className = 'stat-sub busy'; }
     }
   } catch (e) {}
   // 每日峰值折线图
@@ -2586,7 +2876,7 @@ async function doChangePwd() {
   const newPwd = document.getElementById('newPwd').value.trim();
   const confirmPwd = document.getElementById('confirmPwd').value.trim();
   const msgEl = document.getElementById('pwdMsg');
-  msgEl.className = 'msg'; msgEl.style.display = 'none';
+  msgEl.className = 'msg';
   if (!oldPwd || !newPwd) { msgEl.className = 'msg msg-error show'; msgEl.textContent = '请填写所有字段'; return; }
   if (newPwd.length < 6) { msgEl.className = 'msg msg-error show'; msgEl.textContent = '新密码至少6位'; return; }
   if (newPwd !== confirmPwd) { msgEl.className = 'msg msg-error show'; msgEl.textContent = '两次输入的新密码不一致'; return; }
@@ -2866,6 +3156,7 @@ async function loadWeather() {
 
 // ===== 训练计划 v3 =====
 var tpCurrentGoal = '';
+var tpLoadToken = 0;
 var tpPlanData = null;
 var tpActiveDay = 0;
 var tpChecked = {}; // {dayIdx: {exName: true}}
@@ -2874,12 +3165,16 @@ function tpCheckKey(dayIdx, exName) { return goal + '_' + dayIdx + '_' + exName;
 
 var MUSCLE_MAP = {
   '胸':['chest'],'三头':['tricep'],'背':['back'],'二头':['bicep'],'肩':['shoulder'],
-  '腹':['abs'],'腿':['quad','hamstring','calf'],'臀':['glute'],'全身':['chest','back','shoulder','quad']
+  '腹':['abs'],'腿':['quad','hamstring','calf'],'臀':['glute'],'全身':['chest','back','shoulder','quad'],
+  '手臂':['bicep','tricep'],
+  '下肢':['quad','hamstring','calf','glute'],
+  '上肢':['chest','shoulder','tricep']
 };
 
 var MUSCLE_NAMES = {chest:'胸',back:'背',shoulder:'肩',tricep:'三头',bicep:'二头',abs:'腹',quad:'股四',hamstring:'腘绳',calf:'小腿',glute:'臀'};
 
 function tpGetHotMuscles(focus) {
+  if (!focus) return [];
   var hot = [];
   Object.keys(MUSCLE_MAP).forEach(function(k) { if (focus.indexOf(k) >= 0) hot = hot.concat(MUSCLE_MAP[k]); });
   return hot.length ? hot : ['chest'];
@@ -2887,19 +3182,41 @@ function tpGetHotMuscles(focus) {
 
 function tpSelectGoal(goal) {
   tpCurrentGoal = goal;
+  localStorage.setItem("tp_last_tab", goal);
+  tpLoadToken++; // 递增加载令牌，使旧请求失效
   document.getElementById('tpBtnBuild').classList.toggle('active', goal === 'BUILD');
   document.getElementById('tpBtnLose').classList.toggle('active', goal === 'LOSE');
-  fetch(API + '/api/training/goal', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({goal:goal})}).catch(function(){});
-  tpLoadPlan(goal);
+  document.getElementById('tpBtnCustom').classList.toggle('active', goal === 'CUSTOM');
+  // 切换时统一隐藏公共区域，防止闪现旧数据
+  document.getElementById('tpMainArea').style.display = 'none';
+  document.getElementById('tpDietSection').style.display = 'none';
+  document.getElementById('tpVolumeStrip').style.display = 'none';
+  document.getElementById('tpSummary').style.display = 'none';
+  document.getElementById('tpReminder').style.display = 'none';
+  document.getElementById('tpEmpty').style.display = 'none';
+  document.getElementById('tpCustomEditor').style.display = 'none';
+  document.getElementById("tpEmptyPlanMsg").style.display = "none";
+  document.getElementById('tpEmptyCustom').style.display = 'none';
+  if (goal === 'CUSTOM') {
+    document.getElementById('tpWeekStrip').innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-muted);">加载自定义计划...</div>';
+    tpCustomLoad(tpLoadToken);
+  } else {
+    document.getElementById('tpWeekStrip').innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-muted);">加载计划...</div>';
+    fetch(API + '/api/training/goal', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({goal:goal})}).catch(function(){});
+    tpLoadPlan(goal, tpLoadToken);
+  }
 }
 
-async function tpLoadPlan(goal) {
+async function tpLoadPlan(goal, token) {
   if (!goal) return;
+  if (tpCurrentGoal === "CUSTOM") return;
   document.getElementById('tpEmpty').style.display = 'none';
   try {
     var res = await fetch(API + '/api/training/plan?goal=' + goal);
+    if (token !== tpLoadToken) return;
     var data = await res.json();
     if (data.code !== 200) { alert(data.message); return; }
+    if (token !== tpLoadToken) return;
     tpPlanData = data.data;
     tpChecked = JSON.parse(localStorage.getItem('tp_checked_'+goal) || '{}');
     var todayDow = new Date().getDay();
@@ -2921,7 +3238,7 @@ function tpRenderWeekStrip() {
   trainings.forEach(function(t) {
     var cls = 'tp-week-dot';
     if (t.dayOfWeek === tpActiveDay) cls += ' active';
-    if (t.dayOfWeek === todayIdx) cls += ' today';
+    if (t.dayOfWeek === todayIdx && t.dayOfWeek === tpActiveDay) cls += " today";
     if (t.dayType === 'REST') cls += ' rest-day';
     html += '<div class="'+cls+'" onclick="tpSelectDay('+t.dayOfWeek+')"><div class="tp-dot-ring">'+(dayIcons[t.dayType]||'🏋️')+'</div><div class="tp-dot-label">'+t.dayShort+'</div><div class="tp-dot-focus">'+t.focus.substring(0,4)+'</div></div>';
   });
@@ -2937,7 +3254,12 @@ function tpSelectDay(dayIdx) {
 function tpRenderAll(dayIdx) {
   var t = tpPlanData.trainings[dayIdx - 1];
   if (!t) return;
-  tpRenderBodyMap(t.focus);
+  // 休息日不亮肌肉图
+  if (t.dayType === 'REST') {
+    tpRenderBodyMap('');
+  } else {
+    tpRenderBodyMap(t.focus);
+  }
   tpRenderChecklist(dayIdx, t);
   tpRenderVolume(t);
   tpRenderSummary(t);
@@ -3042,8 +3364,9 @@ function tpRenderSummary(t) {
   exs.forEach(function(ex) { totalSets += parseInt(ex.sets) || 0; });
   var dtCls = t.dayType === 'STRENGTH' ? 'strength' : (t.dayType === 'CARDIO' ? 'cardio' : 'rest');
   var dtLabels = tpPlanData.dayTypeLabels || {};
+  var focusDisplay = t.focus || (t.dayType === 'CARDIO' ? '有氧燃脂' : (t.dayType === 'REST' ? '全身恢复' : ''));
   document.getElementById('tpSummaryGrid').innerHTML =
-    '<div class="tp-summary-item"><div class="sm-val">'+t.focus+'</div><div class="sm-label">训练部位</div></div>'+
+    '<div class="tp-summary-item"><div class="sm-val">'+focusDisplay+'</div><div class="sm-label">训练部位</div></div>'+
     '<div class="tp-summary-item"><div class="sm-val">'+exs.length+'</div><div class="sm-label">动作数</div></div>'+
     '<div class="tp-summary-item"><div class="sm-val">'+totalSets+'</div><div class="sm-label">总组数</div></div>'+
     '<div class="tp-summary-item"><div class="sm-val">'+(dtLabels[t.dayType]||'')+'</div><div class="sm-label">日类型</div></div>';
@@ -3179,7 +3502,7 @@ function tpRenderDiet(dayType) {
   meals.forEach(function(m, i) {
     var kcal = tpParseKcal(m.caloriesGuide||'');
     var pct = totalKcal ? Math.round(kcal/totalKcal*100) : 0;
-    wfHtml += '<div class="wf-row"><span class="wf-label">'+(m.mealName||'')+'</span>';
+    wfHtml += '<div class="wf-row"><span class="wf-label">'+(m.emoji||'')+' '+(m.mealName||'')+'</span>';
     wfHtml += '<div class="wf-bar-wrap"><div class="wf-bar-fill" style="width:'+(kcal/maxKcal*100)+'%;background:'+WATERFALL_COLORS[i%5]+';"></div></div>';
     wfHtml += '<span class="wf-kcal">'+kcal+'kcal</span><span class="wf-pct">'+pct+'%</span></div>';
   });
@@ -3195,7 +3518,13 @@ function tpRenderDiet(dayType) {
     flHtml += '<div class="flc-items">';
     if (items.length > 0) {
       items.forEach(function(it) {
-        flHtml += '<div class="flc-item"><span class="fi-emoji">'+(it.emoji||'🍽️')+'</span><span class="fi-name">'+(it.name||it.full||'')+'</span><span class="fi-qty">'+(it.qty||'')+'</span></div>';
+        var food = tpFoodLibrary.find(function(f){return f.id === it.foodId;});
+        if (food) {
+          var grams = it.grams || food.baseGrams || 100;
+          flHtml += '<div class="flc-item"><span class="fi-emoji">'+(food.emoji||'🍽️')+'</span><span class="fi-name">'+food.name+'</span><span class="fi-qty">'+grams+'g</span></div>';
+        } else {
+          flHtml += '<div class="flc-item"><span class="fi-emoji">'+(it.emoji||'🍽️')+'</span><span class="fi-name">'+(it.name||it.full||'')+'</span><span class="fi-qty">'+(it.qty||'')+'</span></div>';
+        }
       });
     } else {
       flHtml += '<div class="flc-item"><span class="fi-name">'+(m.content||'')+'</span></div>';
@@ -3658,6 +3987,669 @@ function showDailyNewsDetail(index) {
   document.getElementById('modalContent').innerHTML = html;
   document.getElementById('modalOverlay').classList.add('show');
 }
+
+// ===== 自定义计划 v2 =====
+var tpCustomData = [];
+var tpCustomDiets = {};
+var tpFoodLibrary = [];
+var tpExerciseLibrary = [];
+var tpCustomActiveDay = 1;
+var tpCustomViewMode = 'edit'; // 'view' | 'edit'
+var tpFoodPickTarget = null; // {mealType}
+var tpFoodPickId = null;
+
+// 餐别定义
+var MEAL_KEYS = ['BREAKFAST','LUNCH','SNACK','DINNER','BEDTIME'];
+var MEAL_TITLES = {BREAKFAST:'🥣 早餐',LUNCH:'🍗 午餐',SNACK:'🍌 加餐',DINNER:'🐟 晚餐',BEDTIME:'🥛 睡前加餐'};
+var MEAL_EMOJIS = {BREAKFAST:'🥣',LUNCH:'🍗',SNACK:'🍌',DINNER:'🐟',BEDTIME:'🥛'};
+var MEAL_NAMES = {BREAKFAST:'早餐',LUNCH:'午餐',SNACK:'加餐',DINNER:'晚餐',BEDTIME:'睡前加餐'};
+
+async function tpCustomLoad(token) {
+  if (tpCurrentGoal !== "CUSTOM") return;
+  document.getElementById('tpEmpty').style.display = 'none';
+  document.getElementById('tpEmptyCustom').style.display = 'none';
+  document.getElementById('tpMainArea').style.display = 'none';
+  document.getElementById("tpEmptyPlanMsg").style.display = "none";
+  document.getElementById('tpDietSection').style.display = 'none';
+  document.getElementById('tpVolumeStrip').style.display = 'none';
+  document.getElementById('tpSummary').style.display = 'none';
+  document.getElementById('tpReminder').style.display = 'none';
+  try {
+    var resT = await fetch(API + '/api/training/custom/plan');
+    var dT = await resT.json();
+    var resD = await fetch(API + '/api/training/custom/diet');
+    var dD = await resD.json();
+    var resF = await fetch(API + '/api/training/custom/foods');
+    var dF = await resF.json();
+    var resE = await fetch(API + '/api/training/custom/exercises');
+    var dE = await resE.json();
+
+    if (token !== tpLoadToken) return;
+    tpCustomData = (dT.code === 200 && dT.data) ? dT.data : [];
+    for (var _d = 1; _d <= 7; _d++) { if (!tpCustomData.find(function(x){return x.dayOfWeek === _d;})) { tpCustomData.push({dayOfWeek:_d, dayName:["","周一","周二","周三","周四","周五","周六","周日"][_d], dayShort:["","一","二","三","四","五","六","日"][_d], focus:"", dayType:"STRENGTH", warmUp:"", cardio:"", notes:"", exercises:[]}); } } tpCustomData.sort(function(a,b){return a.dayOfWeek - b.dayOfWeek;});
+    tpCustomDiets = (dD.code === 200 && dD.data) ? dD.data : {};
+    tpFoodLibrary = (dF.code === 200 && dF.data) ? dF.data : [];
+    tpExerciseLibrary = (dE.code === 200 && dE.data) ? dE.data : [];
+
+    tpRenderCustomWeekStrip();
+    var todayDow = new Date().getDay();
+    tpCustomActiveDay = todayDow === 0 ? 7 : todayDow;
+    document.getElementById('tpCurrDayLabel').textContent = '📅 今天 ' + new Date().getFullYear() + '/' + (new Date().getMonth()+1) + '/' + new Date().getDate();
+
+    if (!tpCustomData.length || tpCustomData.every(function(t){return !t.focus && (!t.exercises||!t.exercises.length);})) {
+      // 无数据：显示空状态
+      document.getElementById('tpEmptyCustom').style.display = '';
+      document.getElementById('tpCustomEditor').style.display = 'none';
+      document.getElementById('tpWeekStrip').innerHTML = '';
+      document.getElementById('tpCurrDayLabel').textContent = '';
+    } else {
+      // 有数据：进入计划视图
+      tpCustomViewMode = 'view';
+      tpCustomSelectDay(tpCustomActiveDay);
+    }
+  } catch (e) { console.error(e); }
+}
+
+function tpRenderCustomWeekStrip() {
+  var dayIcons = {'STRENGTH':'🏋️','CARDIO':'🔥','REST':'😴'};
+  var todayDow = new Date().getDay(), todayIdx = todayDow === 0 ? 7 : todayDow;
+  var html = '';
+  for (var d = 1; d <= 7; d++) {
+    var t = tpCustomData[d-1];
+    var hasPlan = t && (t.focus || (t.exercises && t.exercises.length > 0 && t.exercises.some(function(ex){return ex.name;})));
+    var icon = hasPlan ? (dayIcons[t.dayType]||"🏋️") : "📋";
+    var dayType = (t && t.dayType) || 'STRENGTH';
+    var focus = (t && t.focus) || '';
+    var cls = "tp-week-dot"; if (!hasPlan) cls += " no-plan";
+    if (d === tpCustomActiveDay) cls += ' active';
+    if (d === todayIdx && d === tpCustomActiveDay) cls += " today";
+    if (dayType === 'REST') cls += ' rest-day';
+    html += '<div class="'+cls+'" onclick="tpCustomSelectDay('+d+')"><div class="tp-dot-ring">'+icon+'</div><div class="tp-dot-label">周'+['','一','二','三','四','五','六','日'][d]+'</div><div class="tp-dot-focus">'+(focus.substring(0,4)||'未设置')+'</div></div>';
+  }
+  document.getElementById('tpWeekStrip').innerHTML = html;
+}
+
+function tpCustomSelectDay(dayIdx) {
+  tpCustomActiveDay = dayIdx;
+  tpRenderCustomWeekStrip();
+  if (tpCustomViewMode === 'view') {
+    tpCustomRenderPlanView(dayIdx);
+  } else {
+    tpCustomRenderEditView(dayIdx);
+  }
+}
+
+// ===== 计划视图（和系统计划一样的展示） =====
+function tpCustomRenderPlanView(dayIdx) {
+  if (tpCurrentGoal !== "CUSTOM") return;
+  document.getElementById('tpCustomEditor').style.display = 'none';
+  document.getElementById('tpMainArea').style.display = '';
+  document.getElementById('tpDietSection').style.display = '';
+  document.getElementById('tpVolumeStrip').style.display = '';
+  document.getElementById('tpSummary').style.display = '';
+
+  var t = tpCustomData[dayIdx - 1];
+  if (!t) { document.getElementById('tpMainArea').style.display = 'none'; return; }
+
+  var hasPlan = t.focus || (t.exercises && t.exercises.length > 0 && t.exercises.some(function(ex){return ex.name;}));
+  if (!hasPlan) {
+    document.getElementById("tpMainArea").style.display = "none";
+    document.getElementById('tpDietSection').style.display = 'none';
+    document.getElementById('tpVolumeStrip').style.display = 'none';
+    document.getElementById('tpSummary').style.display = 'none';
+    document.getElementById("tpEmptyPlanMsg").style.display = "";
+    document.getElementById('tpCurrDayLabel').innerHTML = '📅 今天 ' + new Date().getFullYear() + '/' + (new Date().getMonth()+1) + '/' + new Date().getDate() + ' <button class="cp-btn-sm ghost" onclick="tpCustomSwitchEdit()" style="margin-left:8px;">✏️ 编辑计划</button>';
+    return;
+  }
+  document.getElementById("tpEmptyPlanMsg").style.display = "none";
+
+  // 在标题栏添加编辑按钮
+  document.getElementById('tpCurrDayLabel').innerHTML = '📅 今天 ' + new Date().getFullYear() + '/' + (new Date().getMonth()+1) + '/' + new Date().getDate() + ' <button class="cp-btn-sm ghost" onclick="tpCustomSwitchEdit()" style="margin-left:8px;">✏️ 编辑计划</button>';
+
+  // 构建兼容数据，复用现有渲染函数
+  tpPlanData = {
+    trainings: tpCustomData,
+    dietsByDayType: tpCustomBuildDietForView(dayIdx),
+    dayTypeLabels: {'STRENGTH':'力量训练日','CARDIO':'有氧燃脂日','REST':'休息恢复日'}
+  };
+  tpActiveDay = dayIdx;
+  tpChecked = JSON.parse(localStorage.getItem('tp_checked_CUSTOM') || '{}');
+  tpRenderAll(dayIdx);
+}
+
+function tpCustomBuildDietForView(dayIdx) {
+  var dayDiets = tpCustomDiets[dayIdx] || [];
+  var meals = [];
+  MEAL_KEYS.forEach(function(mt) {
+    var m = dayDiets.find(function(dm){return dm.mealType === mt;}) || {mealType:mt, foodItems:'[]'};
+    var fis = [];
+    try { fis = JSON.parse(m.foodItems || '[]'); } catch(e){}
+    var parts = [], totalKcal = 0, totalP = 0, totalC = 0, totalF = 0;
+    fis.forEach(function(fi) {
+      var food = tpFoodLibrary.find(function(f){return f.id === fi.foodId;});
+      if (food) {
+        var grams = fi.grams || food.baseGrams || 100;
+        var ratio = grams / (food.baseGrams || 100);
+        parts.push(food.emoji + food.name + ' ' + grams + 'g');
+        totalKcal += Math.round(food.kcalPerUnit * ratio);
+        totalP += food.proteinG * ratio;
+        totalC += food.carbsG * ratio;
+        totalF += food.fatG * ratio;
+      }
+    });
+    var totalG = Math.round(totalP + totalC + totalF) || 1;
+    meals.push({
+      mealType: mt, mealName: MEAL_NAMES[mt] || mt,
+      emoji: MEAL_EMOJIS[mt] || '🍽️',
+      content: parts.join(' + ') || '未设置',
+      caloriesGuide: '~' + Math.round(totalKcal) + 'kcal',
+      macroRatio: Math.round(totalP/totalG*100) + '/' + Math.round(totalC/totalG*100) + '/' + Math.round(totalF/totalG*100),
+      foodItems: m.foodItems
+    });
+  });
+  var t = tpCustomData[dayIdx - 1];
+  var dt = (t && t.dayType) || 'STRENGTH';
+  var result = {};
+  result[dt] = meals;
+  result['STRENGTH'] = meals;
+  result['CARDIO'] = meals;
+  result['REST'] = meals;
+  return result;
+}
+
+function tpCustomSwitchEdit() {
+  tpCustomViewMode = 'edit';
+  document.getElementById('tpMainArea').style.display = 'none';
+  document.getElementById('tpDietSection').style.display = 'none';
+  document.getElementById("tpEmptyPlanMsg").style.display = "none";
+  document.getElementById('tpVolumeStrip').style.display = 'none';
+  document.getElementById('tpSummary').style.display = 'none';
+  document.getElementById('tpReminder').style.display = 'none';
+  document.getElementById('tpCustomEditor').style.display = '';
+  document.getElementById('tpCurrDayLabel').textContent = '📅 今天 ' + new Date().getFullYear() + '/' + (new Date().getMonth()+1) + '/' + new Date().getDate();
+  tpCustomRenderEditView(tpCustomActiveDay);
+}
+
+function tpCustomViewPlan() {
+  tpCustomViewMode = 'view';
+  tpCustomSelectDay(tpCustomActiveDay);
+}
+
+// ===== 编辑视图 =====
+function tpCustomRenderEditView(dayIdx) {
+  var t = tpCustomData[dayIdx - 1];
+  if (!t) {
+    t = {dayOfWeek:dayIdx, dayName:['','周一','周二','周三','周四','周五','周六','周日'][dayIdx], dayShort:['','一','二','三','四','五','六','日'][dayIdx], focus:'', dayType:'STRENGTH', warmUp:'', cardio:'', notes:'', exercises:[]};
+    tpCustomData[dayIdx - 1] = t;
+  }
+  document.getElementById('tpCustomDayLabel').textContent = '编辑 ' + t.dayName + ' 训练与饮食';
+  document.getElementById('cpFocus').value = t.focus || '';
+  document.getElementById('cpDayType').value = t.dayType || 'STRENGTH';
+  tpCustomWarmUps = t.warmUp ? t.warmUp.split(',').filter(Boolean) : [];
+  tpCustomRenderWarmUpChips();
+  tpCustomRenderExList();
+  tpCustomRenderDietEditor(dayIdx);
+  tpCustomDayTypeChange();
+  tpCustomUpdateCalories();
+  tpCustomAutoFocus();
+  tpCustomAutoNotes();
+}
+
+function tpCustomDayTypeChange() {
+  var dt = document.getElementById('cpDayType').value;
+  document.getElementById('cpStrengthFields').style.display = dt === 'REST' ? 'none' : '';
+  document.getElementById('cpExSection').style.display = dt === 'REST' ? 'none' : '';
+}
+
+// ===== 热身动作 =====
+var tpCustomWarmUps = [];
+
+function tpCustomRenderWarmUpChips() {
+  var html = '';
+  tpCustomWarmUps.forEach(function(name, i) {
+    html += '<span class="cp-food-chip">🔄 '+name+' <span class="chip-x" onclick="tpCustomWarmUps.splice('+i+',1);tpCustomRenderWarmUpChips();">×</span></span>';
+  });
+  document.getElementById('cpWarmUpChips').innerHTML = html || '<span style="color:var(--text-muted);font-size:12px;">点击下方按钮选择热身动作</span>';
+}
+
+function openWarmUpPicker() {
+  tpExActiveCat = '热身';
+  tpExPickReplaceIdx = -2; // -2 表示添加到热身列表
+  document.getElementById('exPickerOverlay').classList.add('show');
+  document.getElementById('exSearchInput').value = '';
+  tpRenderExCats();
+  filterExercises();
+}
+
+/**
+ * 根据已选动作自动生成注意事项
+ */
+function tpCustomAutoNotes() {
+  var t = tpCustomData[tpCustomActiveDay - 1];
+  var exs = t.exercises || [];
+  var notes = [];
+  exs.forEach(function(ex) {
+    if (ex.note && ex.note !== '点击选择动作') notes.push(ex.note);
+  });
+  var notesText = notes.join('；');
+  // 更新备注显示区
+  var el = document.getElementById('cpAutoNotes');
+  if (el) el.innerHTML = notesText ? '<div class="tp-note-bar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;flex-shrink:0;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>'+notesText+'</div>' : '';
+  t.notes = notesText;
+}
+
+// ===== 动作编辑 =====
+function tpCustomRenderExList() {
+  var t = tpCustomData[tpCustomActiveDay - 1];
+  var exs = t.exercises || [];
+  var html = '';
+  exs.forEach(function(ex, i) {
+    var isCardio = ex.category === '有氧';
+    html += '<div class="cp-ex-item">';
+    html += '<span style="font-size:14px;flex-shrink:0;width:24px;text-align:center;">'+(ex.emoji||'🏋️')+'</span>';
+    html += '<span class="ex-name" style="cursor:pointer;color:#7C3AED;" onclick="openExPickerForReplace('+i+')">'+tpEscAttr(ex.name||'点击选择动作')+'</span>';
+    if (isCardio) {
+      html += '<input class="ex-small" value="'+tpEscAttr(ex.reps||'30min')+'" placeholder="时长" onchange="tpCustomUpdateEx('+i+',\'reps\',this.value);tpCustomUpdateCalories();" title="运动时长">';
+    } else {
+      html += '<input class="ex-small" value="'+tpEscAttr(ex.sets||'')+'" placeholder="组数" onchange="tpCustomUpdateEx('+i+',\'sets\',this.value);tpCustomUpdateCalories();">';
+      html += '<input class="ex-small" value="'+tpEscAttr(ex.reps||'')+'" placeholder="次数" onchange="tpCustomUpdateEx('+i+',\'reps\',this.value);tpCustomUpdateCalories();">';
+    }
+    html += '<span class="ex-smallest" style="text-align:center;color:var(--text-muted);font-size:11px;">'+(ex.rest||'60s')+'</span>';
+    html += '<button class="cp-ex-remove" onclick="tpCustomRemoveEx('+i+');tpCustomUpdateCalories();tpCustomAutoFocus();">×</button>';
+    html += '</div>';
+  });
+  document.getElementById('cpExList').innerHTML = html;
+}
+
+function tpCustomUpdateEx(idx, field, value) {
+  var t = tpCustomData[tpCustomActiveDay - 1];
+  if (!t.exercises) t.exercises = [];
+  if (!t.exercises[idx]) t.exercises[idx] = {name:'',sets:'',reps:'',rest:'60s',note:'',emoji:'🏋️'};
+  t.exercises[idx][field] = value;
+}
+
+function tpCustomRemoveEx(idx) {
+  var t = tpCustomData[tpCustomActiveDay - 1];
+  t.exercises.splice(idx, 1);
+  tpCustomRenderExList();
+}
+
+function tpCustomUpdateCalories() {
+  var t = tpCustomData[tpCustomActiveDay - 1];
+  var exs = t.exercises || [];
+  var total = 0;
+  exs.forEach(function(ex) {
+    if (ex.category === '有氧') {
+      var mins = parseInt(ex.reps) || 30;
+      total += mins * 8; // ~8 kcal/min for moderate cardio
+    } else {
+      var sets = parseInt(ex.sets) || 0;
+      var kcalPerSet = parseInt(ex.kcalPerSet) || 5;
+      total += sets * kcalPerSet;
+    }
+  });
+  document.getElementById('cpTotalKcal').textContent = total;
+}
+
+/**
+ * 根据已选动作的肌群自动生成训练重点
+ */
+function tpCustomAutoFocus() {
+  var t = tpCustomData[tpCustomActiveDay - 1];
+  var exs = t.exercises || [];
+  var cats = [];
+  var seen = {};
+  var hasCardio = false;
+  exs.forEach(function(ex) {
+    var cat = ex.category;
+    if (cat === '有氧') {
+      hasCardio = true;
+    } else if (cat && !seen[cat]) {
+      seen[cat] = true;
+      cats.push(cat);
+    }
+  });
+  // 有氧动作参与：纯有氧→有氧燃脂，混合→部位+有氧
+  if (hasCardio) {
+    if (cats.length === 0) {
+      cats.push('有氧燃脂');
+    } else {
+      cats.push('有氧');
+    }
+  }
+  // 选了有氧日类型但无任何动作时兜底
+  if (cats.length === 0 && t.dayType === 'CARDIO') {
+    cats.push('有氧燃脂');
+  }
+  var focus = cats.join('+');
+  document.getElementById('cpFocus').value = focus;
+  t.focus = focus;
+}
+
+// ===== 动作选择器 =====
+var tpExPickReplaceIdx = -1;
+var tpExActiveCat = '全部';
+
+function openExPicker(replaceIdx) {
+  tpExPickReplaceIdx = replaceIdx >= 0 ? replaceIdx : -1;
+  tpExActiveCat = '全部';
+  document.getElementById('exPickerOverlay').classList.add('show');
+  document.getElementById('exSearchInput').value = '';
+  tpRenderExCats();
+  filterExercises();
+}
+
+function openExPickerForReplace(idx) { openExPicker(idx); }
+
+function closeExPicker(e) {
+  if (e && e.target !== document.getElementById('exPickerOverlay')) return;
+  document.getElementById('exPickerOverlay').classList.remove('show');
+}
+
+function tpRenderExCats() {
+  var cats = ['全部'];
+  var seen = {};
+  tpExerciseLibrary.forEach(function(ex){
+    if (!seen[ex.category]) { seen[ex.category] = true; cats.push(ex.category); }
+  });
+  var html = '';
+  cats.forEach(function(c){
+    html += '<button class="food-cat-tab'+(tpExActiveCat===c?' active':'')+'" onclick="tpExActiveCat=\''+c+'\';tpRenderExCats();filterExercises();">'+c+'</button>';
+  });
+  document.getElementById('exCatTabs').innerHTML = html;
+}
+
+function filterExercises() {
+  var q = (document.getElementById('exSearchInput').value||'').toLowerCase();
+  var list = tpExerciseLibrary.filter(function(ex){
+    return (tpExActiveCat === '全部' || ex.category === tpExActiveCat) && (!q || ex.name.toLowerCase().indexOf(q) >= 0);
+  });
+  var html = '';
+  var limit = Math.min(list.length, 30);
+  for (var i = 0; i < limit; i++) {
+    var ex = list[i];
+    html += '<div class="food-picker-item" onclick="tpCustomAddExercise('+ex.id+')"><div><span style="font-size:16px;">'+(ex.emoji||'🏋️')+'</span> <span class="fp-name">'+ex.name+'</span><div class="fp-info">'+ex.category+' · '+ex.kcalPerSet+'kcal/组 · 休息'+ex.restSeconds+'s</div></div><div class="fp-kcal">➕</div></div>';
+  }
+  if (list.length > 30) html += '<div style="text-align:center;padding:8px;color:var(--text-muted);font-size:11px;">还有 '+(list.length-30)+' 项，请搜索缩小范围</div>';
+  document.getElementById('exPickerList').innerHTML = html || '<div style="text-align:center;padding:20px;color:var(--text-muted);">未找到匹配动作</div>';
+}
+
+function tpCustomAddExercise(exId) {
+  var exLib = tpExerciseLibrary.find(function(e){return e.id === exId;});
+  if (!exLib) return;
+  var t = tpCustomData[tpCustomActiveDay - 1];
+  if (!t.exercises) t.exercises = [];
+  var isCardio = exLib.category === '有氧';
+  var newEx = {
+    name: exLib.name,
+    emoji: exLib.emoji || '🏋️',
+    category: exLib.category,
+    sets: isCardio ? '1' : '4',
+    reps: isCardio ? '30min' : '12',
+    rest: exLib.restSeconds + 's',
+    kcalPerSet: exLib.kcalPerSet || 8,
+    note: exLib.description || ''
+  };
+  if (tpExPickReplaceIdx === -2) {
+    // 添加到热身列表
+    if (tpCustomWarmUps.indexOf(exLib.name) < 0) {
+      tpCustomWarmUps.push(exLib.name);
+      tpCustomRenderWarmUpChips();
+    }
+  } else if (tpExPickReplaceIdx >= 0 && tpExPickReplaceIdx < t.exercises.length) {
+    t.exercises[tpExPickReplaceIdx] = newEx;
+  } else {
+    t.exercises.push(newEx);
+  }
+  tpExPickReplaceIdx = -1;
+  closeExPicker();
+  tpCustomRenderExList();
+  tpCustomUpdateCalories();
+  tpCustomAutoFocus();
+  tpCustomAutoNotes();
+}
+
+// ===== 饮食编辑 =====
+function tpCustomRenderDietEditor(dayIdx) {
+  var dayDiets = tpCustomDiets[dayIdx] || [];
+  var html = '';
+  MEAL_KEYS.forEach(function(mt) {
+    var meal = dayDiets.find(function(m){return m.mealType === mt;}) || {mealType:mt, content:'', caloriesGuide:'', macroRatio:'', foodItems:'[]'};
+    var fis = [];
+    try { fis = JSON.parse(meal.foodItems || '[]'); } catch(e){}
+    var totalKcal = 0, totalP = 0, totalC = 0, totalF = 0;
+    fis.forEach(function(fi) {
+      var food = tpFoodLibrary.find(function(f){return f.id === fi.foodId;});
+      if (food) {
+        var grams = fi.grams || food.baseGrams || 100;
+        var ratio = grams / (food.baseGrams || 100);
+        totalKcal += Math.round(food.kcalPerUnit * ratio);
+        totalP += food.proteinG * ratio;
+        totalC += food.carbsG * ratio;
+        totalF += food.fatG * ratio;
+      }
+    });
+    var totalG = Math.round(totalP + totalC + totalF) || 1;
+    var foodText = '';
+    var chipsHtml = '';
+    fis.forEach(function(fi) {
+      var food = tpFoodLibrary.find(function(f){return f.id == fi.foodId;});
+      if (food) {
+        var grams = fi.grams || food.baseGrams || 100;
+        foodText += (foodText?'、':'') + food.name + ' ' + grams + 'g';
+        chipsHtml += '<span class="cp-food-chip">🍽️ '+food.name+' '+grams+'g <span class="chip-x" onclick="event.stopPropagation();tpCustomRemoveFood(\''+mt+'\','+fi.foodId+')">×</span></span>';
+      }
+    });
+    html += '<div class="cp-diet-meal">';
+    html += '<div class="cp-diet-meal-hd"><span>'+MEAL_TITLES[mt]+'</span><span class="cp-meal-kcal">'+Math.round(totalKcal)+' kcal</span></div>';
+    html += '<div style="font-weight:600;color:var(--text);margin-bottom:4px;">'+(foodText||'尚未添加食物')+'</div>';
+    html += '<div class="cp-food-chips">'+chipsHtml+'<button class="cp-add-food-btn" onclick="tpCustomOpenFoodPicker(\''+mt+'\')">+ 添加食物</button></div>';
+    html += '<div class="cp-macro-bar-row"><div class="p" style="width:'+(totalP/totalG*100)+'%"></div><div class="c" style="width:'+(totalC/totalG*100)+'%"></div><div class="f" style="width:'+(totalF/totalG*100)+'%"></div></div>';
+    html += '<div style="font-size:10px;color:var(--text-muted);margin-top:2px;">蛋白'+Math.round(totalP)+'g · 碳水'+Math.round(totalC)+'g · 脂肪'+Math.round(totalF)+'g</div>';
+    html += '</div>';
+  });
+  document.getElementById('cpDietEditor').innerHTML = html || '<div class="tl-empty">暂无饮食数据</div>';
+  // 全天总热量
+  var allKcal = 0;
+  MEAL_KEYS.forEach(function(mt) {
+    var meal = dayDiets.find(function(m){return m.mealType === mt;}) || {foodItems:'[]'};
+    var fis = [];
+    try { fis = JSON.parse(meal.foodItems || '[]'); } catch(e){}
+    fis.forEach(function(fi) {
+      var f = tpFoodLibrary.find(function(fl){return fl.id === fi.foodId;});
+      if (f) {
+        var grams = fi.grams || f.baseGrams || 100;
+        allKcal += Math.round(f.kcalPerUnit * grams / (f.baseGrams || 100));
+      }
+    });
+  });
+  document.getElementById('cpDietTotalKcal').textContent = '全天 ' + allKcal + ' kcal';
+}
+
+// ===== 食物选择器（含克数输入） =====
+var tpFoodPickerMealType = '';
+var tpFoodActiveCat = '全部';
+
+function tpCustomOpenFoodPicker(mealType) {
+  tpFoodPickerMealType = mealType;
+  tpFoodActiveCat = '全部';
+  tpFoodPickId = null;
+  document.getElementById('foodSearchInput').value = '';
+  document.getElementById('foodQtyInput').style.display = 'none';
+  document.getElementById('foodQtyVal').value = '';
+  tpRenderFoodCats();
+  filterFoods();
+  document.getElementById('foodPickerOverlay').classList.add('show');
+}
+
+function closeFoodPicker(e) {
+  if (e && e.target !== document.getElementById('foodPickerOverlay')) return;
+  document.getElementById('foodPickerOverlay').classList.remove('show');
+  document.getElementById('foodQtyInput').style.display = 'none';
+}
+
+function tpRenderFoodCats() {
+  var cats = ['全部'];
+  var seen = {};
+  tpFoodLibrary.forEach(function(f){
+    if (!seen[f.category]) { seen[f.category] = true; cats.push(f.category); }
+  });
+  var html = '';
+  cats.forEach(function(c){
+    html += '<button class="food-cat-tab'+(tpFoodActiveCat===c?' active':'')+'" onclick="tpFoodActiveCat=\''+c+'\';tpRenderFoodCats();filterFoods();">'+c+'</button>';
+  });
+  document.getElementById('foodCatTabs').innerHTML = html;
+}
+
+function filterFoods() {
+  var q = (document.getElementById('foodSearchInput').value||'').toLowerCase();
+  var list = tpFoodLibrary.filter(function(f){
+    return (tpFoodActiveCat === '全部' || f.category === tpFoodActiveCat) && (!q || f.name.toLowerCase().indexOf(q) >= 0);
+  });
+  var html = '';
+  var limit = Math.min(list.length, 30);
+  for (var i = 0; i < limit; i++) {
+    var f = list[i];
+    html += '<div class="food-picker-item" onclick="tpCustomPickFood('+f.id+')"><div><span style="font-size:16px;">'+(f.emoji||'🍽️')+'</span> <span class="fp-name">'+f.name+'</span><div class="fp-info">基准：'+f.unit+' · '+f.kcalPerUnit+'kcal</div></div><div class="fp-kcal">'+f.kcalPerUnit+' kcal</div></div>';
+  }
+  if (list.length > 30) html += '<div style="text-align:center;padding:8px;color:var(--text-muted);font-size:11px;">还有 '+(list.length-30)+' 项，请搜索缩小范围</div>';
+  document.getElementById('foodPickerList').innerHTML = html || '<div style="text-align:center;padding:20px;color:var(--text-muted);">未找到匹配食物</div>';
+}
+
+function tpCustomPickFood(foodId) {
+  tpFoodPickId = foodId;
+  var food = tpFoodLibrary.find(function(f){return f.id === foodId;});
+  if (food) {
+    document.getElementById('foodBaseInfo').textContent = food.unit + ' = ' + food.kcalPerUnit + 'kcal';
+    document.getElementById('foodQtyVal').value = food.baseGrams || 100;
+  }
+  document.getElementById('foodQtyInput').style.display = '';
+}
+
+function tpCustomConfirmFood() {
+  if (!tpFoodPickId) return;
+  var grams = parseInt(document.getElementById('foodQtyVal').value) || 100;
+  var dayIdx = tpCustomActiveDay;
+  if (!tpCustomDiets[dayIdx]) tpCustomDiets[dayIdx] = [];
+  var meal = tpCustomDiets[dayIdx].find(function(m){return m.mealType === tpFoodPickerMealType;});
+  if (!meal) {
+    meal = {mealType: tpFoodPickerMealType, content: '', caloriesGuide: '', macroRatio: '', foodItems: '[]'};
+    tpCustomDiets[dayIdx].push(meal);
+  }
+  var foodItems = [];
+  try { foodItems = JSON.parse(meal.foodItems || '[]'); } catch(e){}
+  foodItems.push({foodId: tpFoodPickId, grams: grams});
+  meal.foodItems = JSON.stringify(foodItems);
+  document.getElementById('foodQtyInput').style.display = 'none';
+  document.getElementById('foodPickerOverlay').classList.remove('show');
+  tpFoodPickId = null;
+  tpCustomRenderDietEditor(dayIdx);
+}
+
+function tpCustomRemoveFood(mealType, foodId) {
+  var dayIdx = tpCustomActiveDay;
+  if (!tpCustomDiets[dayIdx]) return;
+  var meal = tpCustomDiets[dayIdx].find(function(m){return m.mealType === mealType;});
+  if (!meal) return;
+  var foodItems = [];
+  try { foodItems = JSON.parse(meal.foodItems || '[]'); } catch(e){}
+  foodItems = foodItems.filter(function(fi){return fi.foodId !== foodId;});
+  meal.foodItems = JSON.stringify(foodItems);
+  tpCustomRenderDietEditor(dayIdx);
+}
+
+// ===== 保存 / 清空 =====
+async function tpCustomSave() {
+  var dayOfWeek = tpCustomActiveDay;
+  var t = tpCustomData[dayOfWeek - 1];
+  if (!t) { alert('保存失败：未找到当天数据'); return; }
+  t.focus = document.getElementById('cpFocus').value;
+  t.dayType = document.getElementById('cpDayType').value;
+  t.warmUp = tpCustomWarmUps.join(',');
+  t.cardio = t.cardio || '';
+  var exercises = t.exercises || [];
+
+  var trainBody = {
+    dayOfWeek: dayOfWeek,
+    focus: t.focus,
+    dayType: t.dayType,
+    exercises: JSON.stringify(exercises),
+    warmUp: t.warmUp,
+    cardio: t.cardio,
+    notes: t.notes || ''
+  };
+
+  var dayDiets = tpCustomDiets[dayOfWeek] || [];
+  var dietMeals = MEAL_KEYS.map(function(mt){
+    var m = dayDiets.find(function(dm){return dm.mealType === mt;}) || {mealType:mt, content:'', caloriesGuide:'', macroRatio:'', foodItems:'[]'};
+    return {mealType:mt, content:m.content||'', caloriesGuide:m.caloriesGuide||'', macroRatio:m.macroRatio||'', foodItems:m.foodItems||'[]'};
+  });
+
+  try {
+    var resT = await fetch(API + '/api/training/custom/plan', {method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(trainBody)});
+    if (!resT.ok) { alert('训练计划保存失败: ' + resT.status); return; }
+    var resD = await fetch(API + '/api/training/custom/diet', {method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({dayOfWeek:dayOfWeek, meals:dietMeals})});
+    if (!resD.ok) { alert('饮食计划保存失败: ' + resD.status); return; }
+    tpShowSaveToast();
+    // 保存后切换到计划视图
+    tpCustomViewMode = 'view';
+    tpCustomSelectDay(dayOfWeek);
+  } catch(e) { alert('保存失败: ' + e.message); }
+}
+
+function tpShowSaveToast() {
+  var toast = document.getElementById('cpSaveToast');
+  if (!toast) {
+    toast = document.createElement('div'); toast.id = 'cpSaveToast'; toast.className = 'cp-toast';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = '✅ ' + ['','周一','周二','周三','周四','周五','周六','周日'][tpCustomActiveDay] + ' 已保存';
+  toast.classList.add('show');
+  setTimeout(function(){ toast.classList.remove('show'); }, 2000);
+}
+
+function tpCustomStartBlank() {
+  tpCustomData = [];
+  for (var d = 1; d <= 7; d++) {
+    tpCustomData.push({
+      dayOfWeek: d,
+      dayName: ['','周一','周二','周三','周四','周五','周六','周日'][d],
+      dayShort: ['','一','二','三','四','五','六','日'][d],
+      focus: '', dayType: 'STRENGTH',
+      warmUp: '', cardio: '', notes: '', exercises: []
+    });
+  }
+  tpCustomDiets = {};
+  document.getElementById('tpEmptyCustom').style.display = 'none';
+  tpCustomViewMode = 'edit';
+  tpCustomActiveDay = (new Date().getDay() || 7);
+  tpRenderCustomWeekStrip();
+  tpCustomSelectDay(tpCustomActiveDay);
+  document.getElementById('tpCustomEditor').style.display = '';
+  document.getElementById('tpCurrDayLabel').textContent = '📅 今天 ' + new Date().getFullYear() + '/' + (new Date().getMonth()+1) + '/' + new Date().getDate();
+}
+
+async function tpCustomReset(goal) {
+  if (!confirm('从'+(goal==='BUILD'?'增肌':'减脂')+'模板复制？这将覆盖当前自定义计划。')) return;
+  try {
+    await fetch(API + '/api/training/custom/reset', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({goal:goal})});
+    tpCustomViewMode = 'edit';
+    tpCustomLoad(tpLoadToken);
+  } catch(e) {}
+}
+
+async function tpCustomClearAll() {
+  if (!confirm('⚠️ 确定要一键清空全部7天的自定义计划吗？此操作不可撤销！')) return;
+  try {
+    await fetch(API + '/api/training/custom/clear', {method:'POST'});
+    tpCustomData = []; tpCustomDiets = {};
+    document.getElementById('tpCustomEditor').style.display = 'none';
+    document.getElementById('tpEmptyCustom').style.display = '';
+    document.getElementById('tpWeekStrip').innerHTML = '';
+  } catch(e) {}
+}
+
+function tpEscAttr(s) { return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 async function doLogout(){await fetch(API+'/api/auth/logout',{method:'POST'});window.location.href='/login.html';}
 </script>

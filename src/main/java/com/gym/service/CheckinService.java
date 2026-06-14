@@ -23,6 +23,12 @@ public class CheckinService {
     @Resource
     private com.gym.mapper.UserBodyInfoMapper userBodyInfoMapper;
 
+    @Resource
+    private com.gym.mapper.GymDailyMapper gymDailyMapper;
+
+    @Resource
+    private com.gym.mapper.EntryLogMapper entryLogMapper;
+
     public Map<String, Object> doCheckin(Long userId, String mood) {
         Map<String, Object> result = new HashMap<>();
         LocalDate today = LocalDate.now();
@@ -39,6 +45,15 @@ public class CheckinService {
         checkin.setCheckinDate(today);
         checkin.setMood(mood);
         checkinMapper.insert(checkin);
+
+        // 联动更新场馆在场人数（用户打卡即视为入场）
+        if (entryLogMapper.countActiveByUserId(userId) == 0) {
+            gymDailyMapper.incrementCount();
+            EntryLog entryLog = new EntryLog();
+            entryLog.setUserId(userId);
+            entryLog.setStatus(1);
+            entryLogMapper.insert(entryLog);
+        }
 
         MotivationalQuote quote = quoteMapper.randomOne();
         Map<String, String> quoteData = new HashMap<>();

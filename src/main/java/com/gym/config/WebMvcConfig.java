@@ -22,9 +22,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // 静态页面
+        // 静态页面（开发阶段禁用缓存）
         registry.addResourceHandler("/**")
-                .addResourceLocations("classpath:/static/");
+                .addResourceLocations("classpath:/static/")
+                .setCacheControl(CacheControl.noCache());
 
         // 上传的图片 — 从文件系统读取 + 浏览器缓存1小时
         String uploadPath = System.getProperty("user.dir") + "/gym-uploads/";
